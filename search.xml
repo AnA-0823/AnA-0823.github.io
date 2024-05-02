@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>字符编码</title>
+      <link href="/2024/05/02/CharacterEncoding/"/>
+      <url>/2024/05/02/CharacterEncoding/</url>
+      
+        <content type="html"><![CDATA[<h1 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h1><p>在早期计算机系统中，为了给字符编码，美国国家标准学会（American National Standard Institute，ANSI）<br>制定了一套英文编码规范，包含英文字母，数字和一些常用符号，编码范围从<code>0</code>到<code>127</code>，称为<code>ascii</code>编码，<br>每个字素（grapheme，a single unit of a human writing system）只占用一个字节，比如<code>A</code>的编码为<code>0x41(65)</code>。</p><p>但是随着计算机的发展的全球化，计算机需要能支持更多的语言，也就是说每一种语言的文字都需要一套与之对应的编码，<br>对于拉丁字母来说，一个字节的大小就能基本包含常用的字母和符号，但是对于东亚的表意文字来说，一个字节的大小显然是不够用的，<br>需要更多的字节数，比如一个<code>中</code>占用两个字节</p><p>在早期的时候并没有一套统一的规范，于是不同的国家和地区都制定了一套适用于本区域文字的编码，比如中文有<code>GB2312</code>，<br>日文有<code>Shift_JIS</code>，韩文有<code>EUC-KR</code>，不同的编码之间会冲突，这也导致了乱码的问题出现。</p><p>为了统一全球所有语言的编码，全球统一码联盟发布了<code>Unicode</code>编码，它把世界上的主要语言都纳入同一套编码中，<br>这样，中文，日文，韩文和其他语言也就不会冲突了。它的长度为2~4个字节，比如<code>A</code>的<code>ascii</code>编码为<code>0x41(65)</code>，<br>而<code>Unicode</code>编码为<code>U+0041</code>，<code>中</code>的<code>GB2312</code>编码为<code>0xd6d0</code>，<code>Unicode</code>编码为<code>U+4e2d</code>，除此之外，<br><code>Unicode</code>编码还包含了emoji表情，比如<code>🐂</code>的编码为<code>U+1f402</code>，<code>🍺</code>的编码为<code>U+1f37a</code>。</p><p>而我们常说的<code>UTF-8</code>编码是一种编码方式，它将固定长度的<code>Unicode</code>编码转换成长度为1~4个字节的二进制码，<br>比如<code>A</code>的<code>UTF-8</code>编码为<code>0x41</code>，只有一个字节的长度，所以对于大量的英文文本，采用<code>UTF-8</code>编码可以节省大量的存储空间，<br><code>UTF-8</code>编码是通过高字节位来判断一个字素到底是几个字节的。</p><p>在<code>Java</code>中，<code>char</code>类型是采用<code>UTF-16</code>编码的，也就是两个字节来表示一个字素，但是对于一些长度超过两个字节的<code>Unicode</code>码点<br>（用来表示一个字素的Unicode编码）就不够用了， 所以就需要用两个char来表示一个码点，因此在用<code>char</code>类型遍历字符串的时候就会产生错误。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> <span class="string">&quot;🐂🍺&quot;</span>;</span><br><span class="line">        <span class="type">String</span> <span class="variable">s2</span> <span class="operator">=</span> <span class="string">&quot;牛啤&quot;</span>;</span><br><span class="line">        System.out.println(s1.length()); <span class="comment">// 4</span></span><br><span class="line">        System.out.println(s2.length()); <span class="comment">// 2</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s1.length(); i++) &#123;</span><br><span class="line">            System.out.println(s1.charAt(i));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// ?</span></span><br><span class="line">        <span class="comment">// ?</span></span><br><span class="line">        <span class="comment">// ?</span></span><br><span class="line">        <span class="comment">// ?</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s2.length(); i++) &#123;</span><br><span class="line">            System.out.println(s2.charAt(i));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 牛</span></span><br><span class="line">        <span class="comment">// 啤</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>所以为了解决这种问题，<code>Java</code>提供了以码点的长度方式来遍历字符串的对应方法。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> <span class="string">&quot;🐂🍺&quot;</span>;</span><br><span class="line">        <span class="type">String</span> <span class="variable">s2</span> <span class="operator">=</span> <span class="string">&quot;牛啤&quot;</span>;</span><br><span class="line">        System.out.println(s1.codePointCount(<span class="number">0</span>, s1.length())); <span class="comment">// 2</span></span><br><span class="line">        System.out.println(s2.codePointCount(<span class="number">0</span>, s2.length())); <span class="comment">// 2</span></span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">index1</span> <span class="operator">=</span> s1.offsetByCodePoints(<span class="number">0</span>, <span class="number">0</span>); <span class="comment">// 得到从0索引开始偏移0个码点的索引</span></span><br><span class="line">        System.out.println(index1); <span class="comment">// 0</span></span><br><span class="line">        System.out.println(Integer.toHexString(s1.codePointAt(index1))); <span class="comment">// 1f402</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">index2</span> <span class="operator">=</span> s1.offsetByCodePoints(<span class="number">0</span>, <span class="number">1</span>); <span class="comment">// 得到从0索引开始偏移1个码点的索引</span></span><br><span class="line">        System.out.println(index2); <span class="comment">// 2</span></span><br><span class="line">        System.out.println(Integer.toHexString(s1.codePointAt(index2))); <span class="comment">// 1f37a</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 正向</span></span><br><span class="line">        <span class="type">int</span> cp;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s1.length(); i += Character.charCount(cp)) &#123;</span><br><span class="line">            cp = s1.codePointAt(i);</span><br><span class="line">            System.out.println(Integer.toHexString(cp));</span><br><span class="line">            System.out.println(Character.toString(cp));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 1f402</span></span><br><span class="line">        <span class="comment">// 🐂</span></span><br><span class="line">        <span class="comment">// 1f37a</span></span><br><span class="line">        <span class="comment">// 🍺</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 反向</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> s1.length() - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (Character.isSurrogate(s1.charAt(i))) i--;</span><br><span class="line">            cp = s1.codePointAt(i);</span><br><span class="line">            System.out.println(Integer.toHexString(cp));</span><br><span class="line">            System.out.println(Character.toString(cp));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 1f37a</span></span><br><span class="line">        <span class="comment">// 🍺</span></span><br><span class="line">        <span class="comment">// 1f402</span></span><br><span class="line">        <span class="comment">// 🐂</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>但是，以上遍历的方式显然不够优雅，其实<code>Java</code>还提供了将字符串变为一个码点数组的方法，那我们就可以以数组的方式去遍历这个字符串。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> <span class="string">&quot;🐂🍺&quot;</span>;</span><br><span class="line">        <span class="type">String</span> <span class="variable">s2</span> <span class="operator">=</span> <span class="string">&quot;牛啤&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// codePoints方法可以得到一个int流</span></span><br><span class="line">        <span class="type">int</span>[] codePoints = s1.codePoints().toArray();</span><br><span class="line">        System.out.println(Arrays.toString(codePoints));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将码点数组转回字符串</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(codePoints, <span class="number">0</span>, codePoints.length);</span><br><span class="line">        System.out.println(str);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>将单个码点转为字符串可以用<code>Character.toString(int codePoint)</code>方法。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">codePoint</span> <span class="operator">=</span> <span class="number">0x1f37a</span>;</span><br><span class="line">        System.out.println(Character.toString(codePoint));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 基础 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 编码 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+    
+    
+    <entry>
+      <title>about</title>
+      <link href="/about/index.html"/>
+      <url>/about/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>categories</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>link</title>
+      <link href="/link/index.html"/>
+      <url>/link/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>music</title>
+      <link href="/music/index.html"/>
+      <url>/music/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>movies</title>
+      <link href="/movies/index.html"/>
+      <url>/movies/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>gallery</title>
+      <link href="/gallery/index.html"/>
+      <url>/gallery/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>tags</title>
+      <link href="/tags/index.html"/>
+      <url>/tags/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+  
+</search>
