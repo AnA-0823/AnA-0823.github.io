@@ -1,3 +1,10 @@
+:root{
+	--pace-color: #49B1F5;
+}
+[data-theme='dark'] {
+	--pace-color: #292929;
+}
+
 .pace {
 	-webkit-pointer-events: none;
 	pointer-events: none;
@@ -15,7 +22,7 @@
 	right: 0;
 	width: 300px;
 	height: 300px;
-	background: #FFD700;
+	background: var(--pace-color);
 	-webkit-transition: -webkit-transform 0.3s;
 	transition: transform 0.3s;
 	-webkit-transform: translateX(100%) translateY(-100%) rotate(45deg);
