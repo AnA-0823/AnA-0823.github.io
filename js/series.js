@@ -2,7 +2,7 @@
 
 // 11个美化图标
 var icons = ["🍉", "🥭", "🍇", "🍈", "🍊", "🍍", "🍓", "🥝", "🥥", "🫐", "🍒"];
-const list = document
+var list = document
   .querySelector(".note, .info, .no-icon, .flat")
   .querySelectorAll("li");
 for (let i = 0; i < list.length; i++) {
