@@ -1,0 +1,1739 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>处理器体系结构 | AnA.</title><meta name="author" content="AnA"><meta name="copyright" content="AnA"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="前言了解了程序在机器级的表示方式和运作原理后，我们将进一步的研究处理器是如何实现指令集架构的，我们将从硬件电路开始，研究指令集架构在 cpu 内部是如何实现的。但是现在现代微处理器的体系结构是如此的精细复杂，可以称得上是人类创造出的最复杂的系统之一了，如果我们从相对熟悉的 x86-64 架构开始实现的话，可能会花上相当长的一段时间，所以我们将会实现一个受 x86-64 启发的架构，Y86-64，它">
+<meta property="og:type" content="article">
+<meta property="og:title" content="处理器体系结构">
+<meta property="og:url" content="https://lanal.site/blog/post/03b23ak4.html">
+<meta property="og:site_name" content="AnA.">
+<meta property="og:description" content="前言了解了程序在机器级的表示方式和运作原理后，我们将进一步的研究处理器是如何实现指令集架构的，我们将从硬件电路开始，研究指令集架构在 cpu 内部是如何实现的。但是现在现代微处理器的体系结构是如此的精细复杂，可以称得上是人类创造出的最复杂的系统之一了，如果我们从相对熟悉的 x86-64 架构开始实现的话，可能会花上相当长的一段时间，所以我们将会实现一个受 x86-64 启发的架构，Y86-64，它">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lanal.site/file/blog/post-cover/8.jpg">
+<meta property="article:published_time" content="2024-12-11T06:51:23.000Z">
+<meta property="article:modified_time" content="2025-05-04T13:24:14.537Z">
+<meta property="article:author" content="AnA">
+<meta property="article:tag" content="深入理解计算机系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lanal.site/file/blog/post-cover/8.jpg"><link rel="shortcut icon" href="/blog/img/favicon.png"><link rel="canonical" href="https://lanal.site/blog/post/03b23ak4.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/blog/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?efa12f4391544b7616ac7a152161eb67";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: {"path":"/blog/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '处理器体系结构',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-05-04 21:24:14'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/blog/css/custom.css"><link rel="stylesheet" href="/blog/css/universe.css"><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 4s linear infinite; }</style><style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');</style><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/blog/css/corner-indicator.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">46</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/blog/movie/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li><li><a class="site-page child" href="/blog/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/blog/gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/blog/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://lanal.site/file/blog/post-cover/8.jpg')"><nav id="nav"><span id="blog-info"><a href="/blog/" title="AnA."><span class="site-name">AnA.</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/blog/movie/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li><li><a class="site-page child" href="/blog/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/blog/gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/blog/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">处理器体系结构</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-11T06:51:23.000Z" title="发表于 2024-12-11 14:51:23">2024-12-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-05-04T13:24:14.537Z" title="更新于 2025-05-04 21:24:14">2025-05-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">深入理解计算机系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">10.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>35分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="处理器体系结构"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>了解了程序在机器级的表示方式和运作原理后，我们将进一步的研究处理器是如何实现指令集架构的，我们将从硬件电路开始，研究指令集架构在 cpu 内部是如何实现的。但是现在现代微处理器的体系结构是如此的精细复杂，可以称得上是人类创造出的最复杂的系统之一了，如果我们从相对熟悉的 x86-64 架构开始实现的话，可能会花上相当长的一段时间，所以我们将会实现一个受 x86-64 启发的架构，Y86-64，它是 x86-64 架构的精简版，可以让我们在实现上省去一些复杂精细的结构，在总体上对 cpu 的体系结构有个大致的了解。</p>
+<h2 id="Y86-64"><a href="#Y86-64" class="headerlink" title="Y86-64"></a>Y86-64</h2><p>定义一个指令集体系架构（例如 Y86-64）包括定义各种状态单元、指令集和它们得编码、一组编程规范和异常事件处理体系。</p>
+<h3 id="状态"><a href="#状态" class="headerlink" title="状态"></a>状态</h3><p>在 Y86-64 中有几个可见状态，分别为：</p>
+<ul>
+<li>RF：程序寄存器</li>
+<li>CC：条件码</li>
+<li>PC：程序计数器</li>
+<li>Stat：程序状态</li>
+<li>DMEM：内存</li>
+</ul>
+<p>RF 中有 15 个程序寄存器：%rax、%rcx、%rdx、%rbx、%rsp、%rbp、%rsi、%rdi 和%r8 到%r14（省略了 x86-64 中的%r15 来简化指令编码）每个寄存器存储一个 64 位的字。寄存器%rsp 被入栈、出栈、调用和返回指令作为栈指针使用，除此之外其他寄存器没有固定的含义或固定值。</p>
+<p>CC 中有 3 个一位的条件码：ZF、OF 和 SF。</p>
+<p>PC 中存放当前正在执行的指令地址。</p>
+<p>Stat 中的状态码表明程序执行的总体状态，它会指示程序是正常运行还是出现了某种异常。</p>
+<p>DMEM 看作是虚拟内存系统提供的一个单一的字节数组映射，先不考虑虚拟内存的具体实现。</p>
+<h3 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h3><p>Y86-64 中只有 8 字节整数的操作，内存引用方式也只有简单的基址加偏移量的形式，也不支持任何寄存器值的伸缩，下面是 Y86-64 中的所有指令：</p>
+<ul>
+<li>4 个数据传送指令。Y86-64 将 x86-64 的 movq 分成四条指令，分别为 irmovq、rrmovq、mrmovq 和 rmmovq，在 Y86-64 中需要在前缀中显式指定源和目的的类型，i 指代立即数（immediate）、r 指代寄存器（register）、m 指代内存（memory）。</li>
+<li>4 个整数操作指令，OPq。OP（operation）代表操作类型，分别为：addq、subq、andq 和 xorq，这些指令会设置 3 个条件码 ZF、OF 和 SF。</li>
+<li>7 个跳转指令，jXX。jmp、je、jne、jl、jle、jg、jge。</li>
+<li>6 个条件传送指令，cmovXX。cmovle、cmovl、cmove、cmovne、cmovge、comvg，这些指令只能从寄存器传送到寄存器。</li>
+<li>call 指令将返回地址入栈，然后跳转到目的地址。ret 指令从调用中返回。</li>
+<li>pushq 指令入栈。popq 指令出栈。</li>
+<li>halt 指令停止指令运行。Y86-64 中和 halt 和 x86-64 中的 hlt 相似。x86-64 应用不允许使用 hlt，因为会使得整个系统停止运行，对于 Y86-64 来说，halt 会使得处理器停止运行，并设置状态码为 HLT。</li>
+</ul>
+<h3 id="指令编码"><a href="#指令编码" class="headerlink" title="指令编码"></a>指令编码</h3><p>以下为 Y86-64 指令集字节级编码：</p>
+<table>
+  <tr><td>字节</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr>
+  <tr><td>halt</td><td>00</td><td colspan="9"></td></tr>
+  <tr><td>nop</td><td>10</td><td colspan="9"></td></tr>
+  <tr><td>rrmovq rA, rB</td><td>20</td><td>rArB</td><td colspan="8"></td></tr>
+  <tr><td>irmovq V, rB</td><td>30</td><td>FrB</td><td colspan="8">V</td></tr>
+  <tr><td>rmmovq rA, D(rB)</td><td>40</td><td>rArB</td><td colspan="8">D</td></tr>
+  <tr><td>mrmovq D(rB), rA</td><td>50</td><td>rArB</td><td colspan="8">D</td></tr>
+  <tr><td>OPq rA, rB</td><td>6fn</td><td>rArB</td><td colspan="8"></td></tr>
+  <tr><td>jXX Dest</td><td>7fn</td><td colspan="8">Dest</td><td></td></tr>
+  <tr><td>cmovXX rA, rB</td><td>2fn</td><td>rArB</td><td colspan="8"></td></tr>
+  <tr><td>call Dest</td><td>80</td><td colspan="8">Dest</td><td></td></tr>
+  <tr><td>ret</td><td>90</td><td colspan="9"></td></tr>
+  <tr><td>pushq rA</td><td>A0</td><td>rAF</td><td colspan="8"></td></tr>
+  <tr><td>popq rA</td><td>B0</td><td>rAF</td><td colspan="8"></td></tr>
+</table>
+
+<p>每条指令的第一个字节表明指令的类型，这个字节分为两部分：高四位为代码（code）部分，第四位为功能（function）部分。<br>其中功能部分 fn 的具体编码为：</p>
+<ul>
+<li>整数操作指令：<ul>
+<li>addq：60</li>
+<li>subq：61</li>
+<li>andq：62</li>
+<li>xorq：63</li>
+</ul>
+</li>
+<li>分支指令：<ul>
+<li>jmp：70</li>
+<li>jle：71</li>
+<li>jl：72</li>
+<li>je：73</li>
+<li>jne：74</li>
+<li>jge：75</li>
+<li>jg：76</li>
+</ul>
+</li>
+<li>传送指令：<ul>
+<li>rrmovq：20</li>
+<li>cmovle：21</li>
+<li>comvl：22</li>
+<li>cmove：23</li>
+<li>cmovne：24</li>
+<li>cmovge：25</li>
+<li>cmovg：26</li>
+</ul>
+</li>
+</ul>
+<p>rA，rB 为寄存器，每个寄存器使用 4 个位来编码，具体如下：</p>
+<ul>
+<li>rax：0</li>
+<li>rcx：1</li>
+<li>rdx：2</li>
+<li>rbx：3</li>
+<li>rsp：4</li>
+<li>rbp：5</li>
+<li>rsi：6</li>
+<li>rdi：7</li>
+<li>r8 ：8</li>
+<li>r9 ：9</li>
+<li>r10：A</li>
+<li>r11：B</li>
+<li>r12：C</li>
+<li>r13：D</li>
+<li>r14：E</li>
+<li>无寄存器：F</li>
+</ul>
+<p>跳转指令使用绝对寻址的方式，不使用 PC 相对寻址。</p>
+<p>有些指令需要一个附加的 8 字节常数，我们默认是在小端法机器上实现，所以这个常数需要按字节反序，0x0123456789abcdef 反序后为<code>ef cd ab 89 67 45 23 01</code>，比如：<code>rmmovq %rsp, 0x123456789abcd(%rdx)</code>的编码为<code>40 42 cd ab 89 67 45 23 01 00</code>。</p>
+<h3 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h3><p>Y86-64 中有几个异常，如下：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>名字</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>AOK</td>
+<td>正常操作</td>
+</tr>
+<tr>
+<td>2</td>
+<td>HLT</td>
+<td>遇到 halt 指令</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ADR</td>
+<td>遇到非法地址</td>
+</tr>
+<tr>
+<td>4</td>
+<td>INS</td>
+<td>遇到非法指令</td>
+</tr>
+</tbody></table>
+<h2 id="逻辑设计和硬件控制语言（HCL）"><a href="#逻辑设计和硬件控制语言（HCL）" class="headerlink" title="逻辑设计和硬件控制语言（HCL）"></a>逻辑设计和硬件控制语言（HCL）</h2><p>指令集架构是通过处理器内部的数字电路实现的，我们在这里将会简单的介绍一些数字电路的知识和 HCL 来描述不同部件的设计逻辑。</p>
+<h3 id="逻辑门"><a href="#逻辑门" class="headerlink" title="逻辑门"></a>逻辑门</h3><p>所有数字电路都是由一个个逻辑门组成的，逻辑门可以实现单个位的逻辑判断，有以下 3 种逻辑门：</p>
+<ul>
+<li>与门（AND）</li>
+<li>或门（OR）</li>
+<li>非门（NOT）</li>
+</ul>
+<p>与门可以实现 a&amp;&amp;b，或门实现 a||b，非门实现!a。</p>
+<h3 id="组合逻辑电路和-hcl-布尔表达式"><a href="#组合逻辑电路和-hcl-布尔表达式" class="headerlink" title="组合逻辑电路和 hcl 布尔表达式"></a>组合逻辑电路和 hcl 布尔表达式</h3><p>通过逻辑门的组合，我们可以实现更多复杂的逻辑判断，这些组合逻辑电路的硬件结构会非常庞大和复杂，所以我们会使用 hcl 布尔表达式来简化它的描述和表达，比如一个判断位级相等的电路为：<code>bool eq = (a &amp;&amp; b) || (!a &amp;&amp; !b)</code>，还有一个位级的多路复用器为：<code>bool out = (s &amp;&amp; a) || (!s &amp;&amp; b)</code>，hcl 表达式类似 c 语言中的函数，<code>bool</code>为返回值类型，其中<code>bool</code>表示单个位，如果是字级的返回值会使用<code>word</code>。</p>
+<p>将位级逻辑判断的电路进行组合我们可以实现字级逻辑判断的电路，比如 64 位字的判断相等电路就是由 64 个位级判断相等的电路组成的，表达式为：<code>bool Eq = (A == B)</code>，字级的多路复用器为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">word Out = [</span><br><span class="line">    s: A;</span><br><span class="line">    1: B;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>这个语句的判断顺序类似于 c 语言的 switch 语言，从上到下依次判断冒号前的布尔表达式是否为真，若为真则输出为冒号后的表达式，否则继续向下执行。</p>
+<p>还有更多的例子，如果是一个字级的四路复用器，有两个控制信号 s0、s1，四个字级的输入 A、B、C、D，它的表达式为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">word Out4 = [</span><br><span class="line">    !s1 &amp;&amp; !s0: A; # 00</span><br><span class="line">    !s1: B; # 01</span><br><span class="line">    !s0: C; # 10</span><br><span class="line">    1: D; # 11</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>如果是一个字级选 3 个数中最小的数的电路，它的表达式为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">word Min3 = [</span><br><span class="line">    A &lt;= B &amp;&amp; B &lt;= C: A;</span><br><span class="line">    B &lt;= A &amp;&amp; B &lt;= C: B;</span><br><span class="line">    1: C;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>除此之外，我们定义一个简单的 ALU（算术\逻辑单元），有两个字级的输入 X、Y，当控制信号的输入为 0 时，输出为 X+Y，输入为 1 时，输出为 X-Y，输入为 2 时，输出为 X&amp;Y，输入为 3 时，输出为 X^Y，表达式为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">word ALU = [</span><br><span class="line">    !s1 &amp;&amp; !s0: X + Y; # 00 0</span><br><span class="line">    !s1: X - Y; # 01 1</span><br><span class="line">    !s0: X &amp; Y; # 10 2</span><br><span class="line">    1: X ^ Y; # 11 3</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>以上的控制信号表达有些繁琐，我们可以使用 hcl 中的集合关系表达式来简化，假设一个 2 位的 code 信号，将其译码成两条电路 s0、s1，在之前我们这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bool s1 = code == 2 || code == 3;</span><br><span class="line">bool s2 = code == 1 || code == 2;</span><br></pre></td></tr></table></figure>
+
+<p>使用集合关系简化：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bool s1 = code in &#123;2, 3&#125;;</span><br><span class="line">bool s2 = code in &#123;1, 3&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="存储器和时钟"><a href="#存储器和时钟" class="headerlink" title="存储器和时钟"></a>存储器和时钟</h3><p>数字电路有两大类，组合逻辑电路和时序逻辑电路，以上的数字电路为前者，时序逻辑电路可以根据电路的输入和原有状态来改变输出，而组合逻辑电路只能根据电路的输入来改变输出，所以通过时序逻辑电路我们可以实现寄存器和存储器。<br>时序逻辑电路需要时钟来驱动，当时钟的上升沿或者下降沿到来时，电路的输出就会根据输入和原有状态来改变。由于时序逻辑电路的底层比较复杂，我们不会去研究它的具体电路结构，因为这要涉及到数电中大量的触发器等知识，我们会直接使用它们的抽象，我们统一规定后续抽象依赖时钟的使用都是当时钟的上升沿到来时触发。</p>
+<p>寄存器文件，它实现了寄存器，它有两个读端口，A、B，每个读端口有一个输入 src(source，代表寄存器 ID)和一个输出 val(value，输出值)，还有一个写端口，有两个输入 valW（value write，写入值）、dstW（destination write，写入的寄存器 ID），最后还有时钟信号，寄存器文件的读不需要依赖时钟，而写需要依赖时钟的上升沿，以下是它的工作过程：</p>
+<ul>
+<li>读出<ol>
+<li>更新 srcA 或 srcB</li>
+<li>valA 或 valB 更新为对应 src 中寄存器的值</li>
+</ol>
+</li>
+<li>写入<ol>
+<li>更新 valW 和 dstW</li>
+<li>等待时钟上升沿到来</li>
+<li>对应寄存器更新成输入值</li>
+</ol>
+</li>
+</ul>
+<p>数据存储器，它实现了存储器，他有一个读\写信号，一个数据输出，一个数据输入，一个地址信号，一个异常输出以及时钟信号，它同寄存器文件一样，读不依赖时钟，写依赖时钟，以下是它的工作过程：</p>
+<ul>
+<li>读出<ol>
+<li>读写信号设置为 0</li>
+<li>更新地址信号为期望读出数据的地址</li>
+<li>如果地址超出范围，异常输出 1，否则数据输出更新为对应地址数据，异常输出 0</li>
+</ol>
+</li>
+<li>写入<ol>
+<li>读写信号设置为 1</li>
+<li>更新地址信号为期望写入数据的地址</li>
+<li>等待时钟上升沿到来</li>
+<li>如果地址超出范围，异常输出 1，否则对应地址数据更新为输入数据，异常输出 0</li>
+</ol>
+</li>
+</ul>
+<h2 id="Y86-64-的顺序实现"><a href="#Y86-64-的顺序实现" class="headerlink" title="Y86-64 的顺序实现"></a>Y86-64 的顺序实现</h2><p>我们现在已经有了实现 Y86-64 处理器所需的部件了，我们将会描述一个 SEQ（sequential，顺序的）的处理器。SEQ 处理器会在一个时钟周期中会执行一条完整指令所需的所有步骤，这样的处理器的 IPC 会非常低，十分低效，不过开发 SEQ 只是第一步，我们最终会实现一个高效的、流水线化的处理器。</p>
+<h3 id="将处理组织成阶段"><a href="#将处理组织成阶段" class="headerlink" title="将处理组织成阶段"></a>将处理组织成阶段</h3><p>通常多数指令的部分操作都存在相似性，如果每个指令都是用一套独立的电路来实现那么成本将是高昂的，虽然指令的动作差异很大，但是都是按照遵循统一的序列的，我们可以创建一套执行指令的框架来设计一个充分利用硬件的处理器。下面是关于各个阶段和阶段内部执行操作的描述：</p>
+<ul>
+<li>取指（fetch）：取指阶段将从内存中读取指令字节，地址为 PC 的值。从指令字节中抽出两个四位的部分，称为 icode（指令代码）和 ifun（指令功能）。它还可能读出一个寄存器指示符字节，指明一个或两个寄存器 rA 和 rB。除此之外，他还可能取出一个 8 字节的常数 valC。然后计算出下一条指令的地址 valP，也就是说 valP 为 PC 的值加上已取出的指令长度。</li>
+<li>译码（decode）：译码阶段从寄存器文件读入最多两个操作数，得到 valA 和 valB。它通常读入寄存器指示符字段指明的寄存器，而有些指令可能是读入%rsp 的值。</li>
+<li>执行（execute）：执行阶段，ALU 要么执行 ifun 指明的操作，计算内存引用的有效地址，要么增加和减少栈指针。得到的值为 valE。除此之外，它还可能设置条件码。如果是条件传送指令，它会检验条件码和传送条件，如果条件成立则更新目标寄存器。同样的，如果是条件跳转指令，它会判断是否选择分支。</li>
+<li>访存（memory）：访存阶段可以将数据写入内存或者通过内存读出数据。读出的值为 valM。</li>
+<li>写回（write back）：写回阶段最多可以写两个结果到寄存器文件。</li>
+<li>更新 PC（PC update）：将 PC 设置为下一条指令的地址。</li>
+</ul>
+<p>处理器会无限循环的执行这些阶段，在我们简化的处理器中，如果发生了任何的异常，处理器就会停止。在完整的设计中，处理器会进入异常处理模式，开始执行由异常类型指定的代码。</p>
+<p>以下是一些不涉及到访存的指令所需的通用执行过程：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>OPq rA, rB</th>
+<th>rrmovq rA, rB</th>
+<th>irmovq V, rB</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>取指</td>
+<td>icode:ifun &lt;- M1[PC] <br> rA:rB &lt;- M1[PC+1] <br> &nbsp; <br> valP &lt;- PC+2</td>
+<td>icode:ifun &lt;- M1[PC] <br> rA:rB &lt;- M1[PC+1] <br> &nbsp; <br> valP &lt;- PC+2</td>
+<td>icode:ifun &lt;- M1[PC] <br> rA:rB &lt;- M1[PC+1] <br> valC &lt;- M8[PC+2] <br> valP &lt;- PC+10</td>
+</tr>
+<tr>
+<td>译码</td>
+<td>valA &lt;- R[rA] <br> valB &lt;- R[rB]</td>
+<td>valA &lt;- R[rA] <br> &nbsp;</td>
+<td>&nbsp; <br> &nbsp;</td>
+</tr>
+<tr>
+<td>执行</td>
+<td>valE &lt;- valB OP valA <br> Set CC</td>
+<td>valE &lt;- 0+valA <br> &nbsp;</td>
+<td>valE &lt;- 0+valC <br> &nbsp;</td>
+</tr>
+<tr>
+<td>访存</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>写回</td>
+<td>R[rB] &lt;- valE <br> &nbsp;</td>
+<td>R[rB] &lt;- valE <br> &nbsp;</td>
+<td>R[rB] &lt;- valE <br> &nbsp;</td>
+</tr>
+<tr>
+<td>更新 PC</td>
+<td>PC &lt;- valP</td>
+<td>PC &lt;- valP</td>
+<td>PC &lt;- valP</td>
+</tr>
+</tbody></table>
+<p>以下是涉及到访存的指令所需的通用执行过程：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>rmmovq rA, D(rB)</th>
+<th>mrmovq D(rB), rA</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>取指</td>
+<td>icode:ifun &lt;- M1[PC] <br> rA:rB &lt;- M1[PC+1] <br> valC &lt;- M8[PC+2] <br> valP &lt;- PC+10</td>
+<td>icode:ifun &lt;- M1[PC] <br> rA:rB &lt;- M1[PC+1] <br> valC &lt;- M8[PC+2] <br> valP &lt;- PC+10</td>
+</tr>
+<tr>
+<td>译码</td>
+<td>valA &lt;- R[rA] <br> valB &lt;- R[rB]</td>
+<td>&nbsp; <br> valB &lt;- R[rB]</td>
+</tr>
+<tr>
+<td>执行</td>
+<td>valE &lt;- valB+valC <br> &nbsp;</td>
+<td>valE &lt;- valB+valC <br> &nbsp;</td>
+</tr>
+<tr>
+<td>访存</td>
+<td>M8[valE] &lt;- valA</td>
+<td>valM &lt;- M8[valE]</td>
+</tr>
+<tr>
+<td>写回</td>
+<td>&nbsp; <br> &nbsp;</td>
+<td>&nbsp; <br> R[rA] &lt;- valM</td>
+</tr>
+<tr>
+<td>更新 PC</td>
+<td>PC &lt;- valP</td>
+<td>PC &lt;- valP</td>
+</tr>
+</tbody></table>
+<p>以下是 pushq 和 popq 的通用执行过程：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>pushq rA</th>
+<th>popq rA</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>取指</td>
+<td>icode:ifun &lt;- M1[PC] <br> rA:rB &lt;- M1[PC+1] <br> &nbsp; <br> valP &lt;- PC+2</td>
+<td>icode:ifun &lt;- M1[PC] <br> rA:rB &lt;- M1[PC+1] <br> &nbsp; <br> valP &lt;- PC+2</td>
+</tr>
+<tr>
+<td>译码</td>
+<td>valA &lt;- R[rA] <br> valB &lt;- R[%rsp]</td>
+<td>valA &lt;- R[%rsp] <br> valB &lt;- R[%rsp]</td>
+</tr>
+<tr>
+<td>执行</td>
+<td>valE &lt;- valB+(-8) <br> &nbsp;</td>
+<td>valE &lt;- valB+8 <br> &nbsp;</td>
+</tr>
+<tr>
+<td>访存</td>
+<td>M8[valE] &lt;- valA</td>
+<td>valM &lt;- M8[valA]</td>
+</tr>
+<tr>
+<td>写回</td>
+<td>R[%rsp] &lt;- valE <br> &nbsp;</td>
+<td>R[%rsp] &lt;- valE <br> R[rA] &lt;- valM</td>
+</tr>
+<tr>
+<td>更新 PC</td>
+<td>PC &lt;- valP</td>
+<td>PC &lt;- valP</td>
+</tr>
+</tbody></table>
+<p>以下是 jXX 和 cmovXX 的通用执行过程：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>jXX Dest</th>
+<th>cmovXX rA, rB</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>取指</td>
+<td>icode:ifun &lt;- M1[PC] <br> &nbsp; <br> valC &lt;- M8[PC+1] <br> valP &lt;- PC+9</td>
+<td>icode:ifun &lt;- M1[PC] <br> rA:rB &lt;- PC+1 <br> &nbsp; <br> valP &lt;- PC+2</td>
+</tr>
+<tr>
+<td>译码</td>
+<td>&nbsp; <br> &nbsp;</td>
+<td>valA &lt;- R[rA] <br> &nbsp;</td>
+</tr>
+<tr>
+<td>执行</td>
+<td>&nbsp; <br> Cnd &lt;- Cond(CC, ifun)</td>
+<td>valE &lt;- 0+valA <br> Cnd &lt;- Cond(CC, ifun)</td>
+</tr>
+<tr>
+<td>访存</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>写回</td>
+<td>&nbsp; <br> &nbsp;</td>
+<td>&nbsp; <br> if(Cnd) R[rB] &lt;- valE</td>
+</tr>
+<tr>
+<td>更新 PC</td>
+<td>PC &lt;- Cnd?valC:valP</td>
+<td>PC &lt;- valP</td>
+</tr>
+</tbody></table>
+<p>以下是 call 和 ret 的通用执行过程：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>call Dest</th>
+<th>ret</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>取指</td>
+<td>icode:ifun &lt;- M1[PC] <br> &nbsp; <br> valC &lt;- M8[PC+1] <br> valP &lt;- PC+9</td>
+<td>icode:ifun &lt;- M1[PC] <br> &nbsp; <br> &nbsp; <br> valP &lt;- PC+1</td>
+</tr>
+<tr>
+<td>译码</td>
+<td>&nbsp; <br> valB &lt;- R[%rsp]</td>
+<td>valA &lt;- R[%rsp] <br> valB &lt;- R[%rsp]</td>
+</tr>
+<tr>
+<td>执行</td>
+<td>valE &lt;- valB+(-8) <br> &nbsp;</td>
+<td>valE &lt;- valB+8 <br> &nbsp;</td>
+</tr>
+<tr>
+<td>访存</td>
+<td>M8[valE] &lt;- valP</td>
+<td>valM &lt;- M8[valA]</td>
+</tr>
+<tr>
+<td>写回</td>
+<td>R[%rsp] &lt;- valE <br> &nbsp;</td>
+<td>R[%rsp] &lt;- valE <br> &nbsp;</td>
+</tr>
+<tr>
+<td>更新 PC</td>
+<td>PC &lt;- valC</td>
+<td>PC &lt;- valM</td>
+</tr>
+</tbody></table>
+<h3 id="SEQ-硬件结构"><a href="#SEQ-硬件结构" class="headerlink" title="SEQ 硬件结构"></a>SEQ 硬件结构</h3><p>介绍完指令执行的框架后，我们将介绍如何从硬件上实现这个框架，下面先总结一下这个框架中每个阶段会使用到的信息：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>指令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>取指</td>
+<td>icode:ifun <br> rA,rB <br> valC <br> valP</td>
+</tr>
+<tr>
+<td>译码</td>
+<td>valA,srcA <br> valB,srcB</td>
+</tr>
+<tr>
+<td>执行</td>
+<td>valE <br> Cond.codes</td>
+</tr>
+<tr>
+<td>访存</td>
+<td>Read&#x2F;Write</td>
+</tr>
+<tr>
+<td>写回</td>
+<td>E port,dstE <br> M port,dstM</td>
+</tr>
+<tr>
+<td>更新 PC</td>
+<td>PC</td>
+</tr>
+</tbody></table>
+<p>下图是以上阶段的硬件实现，正如我们设想的那样，SEQ 会在一个周期中运行完整个指令的所有阶段，为了简化线路设计方便理解，我们先不标明信息传递的源和目的，而是将信息放入信息流中，各部件按需从流中取出信息处理并放回流中。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/1.jpg"></p>
+<ul>
+<li>取指：将 PC 的值作为地址，指令内存读取指令的字节。PC 增加器（使用单独一套电路不使用 ALU）计算 valP。</li>
+<li>译码：从寄存器文件的 A、B 端口同时读取寄存器值 valA 和 valB。</li>
+<li>执行：根据指令类型设置 ALU 的模式然后设置好 aluA 和 aluB 操作数，计算出 valE 并更新条件码。根据条件码和指令条件和类型来计算分支信号 Cnd。</li>
+<li>访存：从数据内存读出或写入一个内存字。指令和数据内存访问的是同一块内存，只是用于不同的目的。</li>
+<li>写回：寄存器文件有两个写端口。端口 E 用来写 ALU 计算出来的新值，端口 M 用来写从数据内存中读出的值。</li>
+<li>更新 PC：根据指令内存，将 PC 的值更新为 valP（下一条指令的地址），valC（调用指令或跳转指令的目标地址），valM（从内存中读取的返回地址）。</li>
+</ul>
+<p>下图给出了更详细的硬件实现，包括了异常处理和 Stat 的更新：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/2.jpg"></p>
+<h3 id="SEQ-时序"><a href="#SEQ-时序" class="headerlink" title="SEQ 时序"></a>SEQ 时序</h3><p>以上硬件结构中使用到了组合逻辑电路和时序逻辑电路，组合逻辑电路在输入后即可得到输出，而时序逻辑电路在输入后还需等待时钟上升沿的到来才能改变输出，下图给出一个示例有助于理解这一点：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/3.jpg"></p>
+<h3 id="SEQ-阶段的实现"><a href="#SEQ-阶段的实现" class="headerlink" title="SEQ 阶段的实现"></a>SEQ 阶段的实现</h3><p>下面将会深入分析各个阶段并使用 HCL 来详细详细描述各个部件的硬件实现，我们先回顾一下 Y86-64 中指令的常数值：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/4.jpg"></p>
+<p>这其中包含了 nop 指令和 halt 指令。nop 指令只是简单的经过各个阶段，除了要将 PC 加 1，不进行任何处理。halt 指令使得处理器状态设置为 HLT，使得处理器停止运行。</p>
+<h4 id="取指阶段"><a href="#取指阶段" class="headerlink" title="取指阶段"></a>取指阶段</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/5.jpg"></p>
+<p>取指阶段将 PC 的值作为地址从内存中一次读出 10 个字节。然后将字节 0 作为指令字节放入 Split 单元分割成两个 4 位的 icode 和 ifun，若 icode 和 ifun 不合法，或者指令内存地址不合法时，会设置 imem_error 信号指明状态，并将 icode 和 ifun 设置成 nop 指令对应的值来跳过这个字节。字节 1 作为寄存器标识字节设置 rA，rB 信号。字节 2-9 设置 valC。根据 icode 的值可以计算 instr_valid，need_regids，need_valC 信号，以下是它们的意义：</p>
+<ul>
+<li>instr_valid：这个字节是否对应为一个合法的 Y86-64 指令，可用于发现不合法的指令。</li>
+<li>need_regids：这个指令是否包含寄存器标识字节。</li>
+<li>need_valC：这个指令是否包含一个常数字。</li>
+</ul>
+<p>下面是 need_regids 和 need_valC 信号的 HCL 表达式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bool need_regids = icode in &#123;IRRMOVQ, IOPQ, IPUSHQ, IIRMOVQ, IRMMOVQ, IMRMOVQ&#125;;</span><br><span class="line">bool need_valC = icode in &#123;IIRMOVQ, IRMMOVQ, IMRMOVQ, IJXX, ICALL&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>通过 need_regids 和 need_valC 信号 PC 增加器可以计算出 valP。对于 PC 的值为 p，need_regids 为 r，need_valC 为 i，则<code>valP = p + 1 + r + 8i</code>。</p>
+<h4 id="译码和写回阶段"><a href="#译码和写回阶段" class="headerlink" title="译码和写回阶段"></a>译码和写回阶段</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/6.jpg"></p>
+<p>寄存器文件有两个读端口（A 和 B）和两个写端口（E 和 M）。每个端口都有一个地址连接和数据连接，地址连接为寄存器 ID，数据连接为一组 64 位信号，对于读口来说是输出字，对于写口来说是输入字。两个读口的地址输入为 srcA 和 srcB，两个写口的地址输入为 dstE 和 dstM。四个地址的输入是根据 icode，rA，rB，Cnd 信号设置的。</p>
+<p>以下是 srcA 和 srcB 的 hcl 表达式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">word srcA = [</span><br><span class="line">    icode in &#123;IRRMOVQ, IRMMOVQ, IOPQ, IPUSHQ&#125; : rA;</span><br><span class="line">    icode in &#123;IPOPQ, IRET&#125; : RRSP; # RRSP为寄存器%rsp的id</span><br><span class="line">    1 : RNONE; # 不需要寄存器</span><br><span class="line">];</span><br><span class="line">word srcB = [</span><br><span class="line">    icode in &#123;IOPQ, IRMMOVQ, IMRMOVQ&#125; : rB;</span><br><span class="line">    icode in &#123;IPUSHQ, IPOPQ, ICALL, IRET&#125; : RRSP;</span><br><span class="line">    1 : RNONE;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>以下是 dstE 和 dstM 的 hcl 表达式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">word dstE = [</span><br><span class="line">    icode in &#123;IRRMOVQ&#125; &amp;&amp; Cnd : rB; # 实现条件传送</span><br><span class="line">    icode in &#123;IIRMOVQ, IOPQ&#125; : rB;</span><br><span class="line">    icode in &#123;IPUSHQ, IPOPQ, ICALL, IRET&#125; : RRSP;</span><br><span class="line">    1 : RNONE;</span><br><span class="line">];</span><br><span class="line">word dstM = [</span><br><span class="line">    icode in &#123;IMRMOVQ, IPOPQ&#125; : rA;</span><br><span class="line">    1 : RNONE;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h4 id="执行阶段"><a href="#执行阶段" class="headerlink" title="执行阶段"></a>执行阶段</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/7.jpg"></p>
+<p>根据 icode 和 ifun 设置 alufun 信号来设置 ALU 的计算模式，alufun 的 hcl 表达式为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">word alufun = [</span><br><span class="line">    icode == IOPQ : ifun;</span><br><span class="line">    1 : ALUADD;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>根据 icode 设置 aluA 为 valA、valC 或者是-8、+8，aluB 为 valB 或者 0，以下是两者的 hcl 表达式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">word aluA = [</span><br><span class="line">    icode in &#123;IRRMOVQ, IOPQ&#125; : valA;</span><br><span class="line">    icode in &#123;IIRMOVQ, IMRMOVQ, IRMMOVQ&#125; : valC;</span><br><span class="line">    icode in &#123;IPUSHQ, ICALL&#125; : -8;</span><br><span class="line">    icode in &#123;IPOPQ, IRET&#125; : +8;</span><br><span class="line">    # 其他指令不需要ALU</span><br><span class="line">];</span><br><span class="line">word aluBB = [</span><br><span class="line">    icode in &#123;IMRMOVQ, IRMMOVQ, IOPQ, IPUSHQ, IPOPQ, ICALL, IRET&#125; : valB;</span><br><span class="line">    icode in &#123;IRRMOVQ, IIRMOVQ&#125; : 0;</span><br><span class="line">    # 其他指令不需要ALU</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>最后还有一个 set_cc 信号来控制是否要更新条件码寄存器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bool set_cc = icode in &#123;IOPQ&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="访存阶段"><a href="#访存阶段" class="headerlink" title="访存阶段"></a>访存阶段</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/8.jpg"></p>
+<p>两个控制块产生内存地址和输入数据，两个控制块控制是执行读操作还是写操作，以下是读写信号的 hcl 代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bool mem_read = icode in &#123;IMRMOVQ, IPOPQ, IRET&#125;;</span><br><span class="line">bool mem_write = icode in &#123;IRMMOVQ, IPUSHQ, ICALL&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>以下是内存地址和输入数据的 hcl 代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">word mem_addr = [</span><br><span class="line">    icode in &#123;IRMMOVQ, IPUSHQ, ICALL, IMRMOVQ&#125; : valE;</span><br><span class="line">    icode in &#123;IPOPQ, IRET&#125; : valA;</span><br><span class="line">    # 其他指令不需要产生内存地址</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">word mem_data = [</span><br><span class="line">    icode in &#123;IRMMOVQ, IPUSHQ&#125; : valA;</span><br><span class="line">    icode in &#123;ICALL&#125; : valP;</span><br><span class="line">    # 其他指令不需要产生内存输入数据</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>如果内存地址不合法将会设置 dmem_error 信号，最后 Stat 将会根据 icode、imem_error、instr_valid 和 dmem_error 计算出状态码 Stat，以下是 Stat 的 hcl 代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">word Stat = [</span><br><span class="line">    imem_error || dmem_error : SADR;</span><br><span class="line">    !instr_valid: SINS;</span><br><span class="line">    icode == IHALT : SHLT;</span><br><span class="line">    1 : SAOK;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h4 id="更新-PC-阶段"><a href="#更新-PC-阶段" class="headerlink" title="更新 PC 阶段"></a>更新 PC 阶段</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/9.jpg"></p>
+<p>最后一个阶段会产生 PC 的新值。根据 icode 和 Cnd，new_pc 可能为 valC，valM 或 valP，以下是 hcl 代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">word new_pc = [</span><br><span class="line">    icode == ICALL : valC;</span><br><span class="line">    icode == IJXX &amp;&amp; Cnd : valC;</span><br><span class="line">    icode == IRET : valM;</span><br><span class="line">    1 : valP;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h4 id="SEQ-小结"><a href="#SEQ-小结" class="headerlink" title="SEQ 小结"></a>SEQ 小结</h4><p>现在我们已经浏览了 Y86-64 处理器的一个完整设计。可以看到，通过将执行每条指令所需的步骤组织成一个统一的流程，就可以用少量的各种硬件单元以及一个时钟来控制计算的顺序，从而实现整个处理器。SEQ 的唯一问题就是太慢了，时钟必须非常慢才能使信号在一个周期中传输完所有阶段。这种实现方式不能充分利用硬件单元，因为每个硬件单元只在整个时钟周期的一部分时间中被使用到。后续我们将会引进流水线设计来获得更好的性能。</p>
+<h2 id="流水线的通用原理"><a href="#流水线的通用原理" class="headerlink" title="流水线的通用原理"></a>流水线的通用原理</h2><p>流水线（pipeline）是一项提高系统吞吐量的重要技术。它的基本思想是将一个任务分解为多个连续的步骤或阶段，每个阶段由专门的硬件电路来执行。通过这种方式，我们可以同时处理多条指令，每条指令处于执行的不同阶段。<br>为了理解流水线的原理，我们可以通过一个简单的例子来说明：<br>现在假设洗一批衣服需要三个步骤：洗、漂洗和烘干，每个步骤需要 30 分钟。如果采用顺序处理的方式，处理 3 批衣服就需要 270 分钟（每批 90 分钟）。如果采用流水线的方式，第二批衣服就可以在第一批衣服进行漂洗的时候开始洗，第三批可以在第一批进行烘干，第二批进行漂洗的时候进行洗，那么处理完 3 批衣服就只需要 150 分钟，因为我们可以同时进行漂洗和烘干。</p>
+<h3 id="计算流水线"><a href="#计算流水线" class="headerlink" title="计算流水线"></a>计算流水线</h3><p>通过流水线技术我们可以将一个组合逻辑电路进行拆分，在拆分的电路之间插入寄存器，用来存储中间结果，从而提高电路的吞吐量。<br>下面给出一个简单的例子：</p>
+<ul>
+<li>未流水线化前：</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/10.jpg"></p>
+<p>未流水线化前，一组指令进入系统（I1,I2,I3），系统将会执行完一个指令之后再进行下一个指令，所以在流水线图中三个指令在垂直上并没有重叠，系统的延迟为 300+20&#x3D;320ps，最大吞吐量计算如下：</p>
+<p>$$ \text{最大吞吐量} &#x3D; \frac{1}{(300+20)ps} \times \frac{1s}{1ps} \approx 3.125 GIPS $$</p>
+<p>$ 1s &#x3D; 10^{12}ps $</p>
+<ul>
+<li>流水线化后：</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/11.jpg"></p>
+<p>流水线化后，我们将系统拆分成三个阶段（A,B,C），一组指令进入系统（I1,I2,I3），系统会在开始的 120ps 时，开始执行 I2，在 240ps 时开始执行 I3，三个指令在垂直上有了重叠，系统的延迟为 3(100+20)&#x3D;360ps，最大吞吐量计算如下：</p>
+<p>$$ \text{最大吞吐量} &#x3D; \frac{1}{(100+20)ps} \times \frac{1s}{1ps} \approx 8.333 GIPS $$</p>
+<p>$ 1s &#x3D; 10^{12}ps $</p>
+<p>流水线化后，系统的吞吐量提高到了原来的 8.333&#x2F;3.125&#x3D;2.667 倍，而代价是延迟小幅提升到了 360&#x2F;320&#x3D;1.125 倍。<br>流水线化中，我们会将系统的时钟周期设置为最长的那个阶段，这样可以保证每个阶段都能在时钟周期结束时完成，不会出现数据冲突。</p>
+<h3 id="流水线的局限性"><a href="#流水线的局限性" class="headerlink" title="流水线的局限性"></a>流水线的局限性</h3><p>上述的流水线设计是在理想情况下，能将每个部分都均匀划分，但实际中流水线设计会遇到以下问题：</p>
+<ul>
+<li>不一致的划分：<br>假如我们将系统仍然划分成 3 个阶段，但每个阶段的延迟从 50ps 到 150ps 不等，A 阶段为 50ps，B 阶段为 150ps，C 阶段为 100ps，那么流水线化后，系统的延迟将会变成 3(150+20)&#x3D;510ps，吞吐量为 5.882 GIPS，当系统运行时 A 和 C 阶段会存在空闲，这样就无法充分利用硬件资源。</li>
+<li>流水线过深，收益反而下降：<br>假如我们将系统划分为 6 个阶段，每个阶段需要 50ps，那么流水线化后，系统的延迟将会变成 6(50+20)&#x3D;420ps，吞吐量为 14.286 GIPS，我们将性能提高了 14.286&#x2F;8.333&#x3D;1.713 倍，没有阶段的时钟周期缩短到了原来的两倍，但是由于流水线寄存器的存在，吞吐量并没有加倍，流水线寄存器的延迟成为了系统提升吞吐量的一个制约因素，在我们的新的设计中，这个延迟占到了整个时钟周期的 28.6%。</li>
+</ul>
+<h3 id="带反馈的流水线设计"><a href="#带反馈的流水线设计" class="headerlink" title="带反馈的流水线设计"></a>带反馈的流水线设计</h3><p>目前为止，我们只考虑了单独执行的指令，但实际中，指令之间可能存在依赖关系，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">irmovq $100, %rax</span><br><span class="line">addq %rax, %rbx</span><br><span class="line">mrmovq 50(%rbx), %rdx</span><br></pre></td></tr></table></figure>
+
+<p>在上述指令中，第二条指令需要使用第一条指令存入的值，第三条指令需要第二条指令中计算出的值，这些相邻的指令之间都存在数据相关（data dependency）。</p>
+<p>另外一种相关是控制相关，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">loop:</span><br><span class="line">  subq %rdx, %rax</span><br><span class="line">  jne targ</span><br><span class="line">  irmovq $100, %rdx</span><br><span class="line">  jmp loop</span><br><span class="line">targ:</span><br><span class="line">  halt</span><br></pre></td></tr></table></figure>
+
+<p>上述指令中使用到了 jne 指令，产生了一个控制相关（control dependency）。</p>
+<p>如果我们仍然使用之前的 3 阶段流水线设计，那 I2 将无法获取 I1 的反馈，只能等到 I1 执行完后续的指令才能获取反馈，之将会导致系统执行错误，所以我们将流水线设计引入 Y86-64 处理器时，必须要能正确处理反馈的影响。</p>
+<h2 id="Y86-64-的流水线实现"><a href="#Y86-64-的流水线实现" class="headerlink" title="Y86-64 的流水线实现"></a>Y86-64 的流水线实现</h2><p>在设计流水线化的 Y86-64 处理器之前，我们需要先对原先的 SEQ 处理器进行一些修改，以适应流水线的设计。</p>
+<h3 id="SEQ"><a href="#SEQ" class="headerlink" title="SEQ+"></a>SEQ+</h3><p>SEQ+ 处理器在原有的 SEQ 处理器基础上，将 PC 更新阶段移动到取值阶段前，来适应流水线化的改造，同时我们也将 PC 选择器的输入信号进行重新标号。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/12.jpg"></p>
+<h3 id="插入流水线寄存器"><a href="#插入流水线寄存器" class="headerlink" title="插入流水线寄存器"></a>插入流水线寄存器</h3><p>在创建一个流水线化的 Y86-64 处理器的最初尝试中，我们要在 SEQ+处理器的基础上插入流水线寄存器，并对信号重新排列，得到 PIPE-处理器。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/13.jpg"></p>
+<p>流水线寄存器按如下方式进行标号：</p>
+<ul>
+<li>F 保存 PC 的预测值</li>
+<li>D 保存取指阶段后取出的指令的信息，用于译码阶段</li>
+<li>E 保存译码阶段后的指令的信息以及从寄存器中取出的值，用于执行阶段</li>
+<li>M 保存执行阶段后的指令的信息以及 ALU 计算结果和条件码，用于访存阶段</li>
+<li>W 保存访存阶段后的指令的信息以及从内存中读取的值，用于写回阶段和更新 PC</li>
+</ul>
+<h3 id="预测下一个-PC"><a href="#预测下一个-PC" class="headerlink" title="预测下一个 PC"></a>预测下一个 PC</h3><p>在 PIPE-处理器中，我们采取了一些措施来正确处理控制相关。<br>对于 call 和 jmp 指令来说，下一条指令的地址就是当前指令中的 valC，所以我们就可以将 valC 作为下一个 PC 的预测值。<br>对于条件分支指令来说，我们将会使用分支预测技术，分支预测策略的不同会影响到预测的准确性，进而影响到流水线的性能。分支预测策略大致可以分为静态预测和动态预测，静态预测策略是根据当前指令的类型来预测，动态预测策略是根据历史执行情况来预测。现代处理器基本都采用动态预测策略。我们在这里就采用简单的静态预测策略的设计，静态预测策略有以下几种：</p>
+<ul>
+<li>总是选择：总是预测分支指令会跳转，成功率大约为 60%</li>
+<li>总是不选择：总是预测分支指令不会跳转，成功率大约为 40%</li>
+<li>反向选择：当分支地址比下一条地址低时，预测分支指令会跳转，否则预测不会跳转，成功率大约为 65%</li>
+<li>正向选择：当分支地址比下一条地址高时，预测分支指令会跳转，否则预测不会跳转，成功率大约为 45%</li>
+</ul>
+<p>正向选择和反向选择的实现难度较为复杂，我们在这里采用总是选择策略。</p>
+<p>对于 ret 指令，它的新 PC 值并不能从指令中获取，而是要通过访问栈帧才能得知，所以我就为了简化设计就不会对返回地址进行预测，而是简单的暂停处理新的指令，直到 ret 指令执行完成。</p>
+<p>对于大多数程序来说，预测返回地址是很容易的，因为过程调用和过程返回是成对出现，大多数函数的返回地址就是调用函数指令的下一条指令，现代处理器会在取指单元中放入一个硬件栈，保存过程调用指令产生的返回地址，当取出一个 ret 指令时就从这个栈中弹出顶部的值作为预测的返回地址。但是有的时候这样的预测不一定会成功，所以我们仍然需要提供一个恢复机制来处理预测失败的情况。</p>
+<h3 id="流水线冒险"><a href="#流水线冒险" class="headerlink" title="流水线冒险"></a>流水线冒险</h3><p>流水线冒险（pipeline hazard）是指流水线中指令的执行顺序与预期顺序不一致的情况。流水线冒险可以分为数据冒险（data hazard）和控制冒险（control hazard）。</p>
+<p>在刚才的 PIPE-设计中，我们并没有对数据冒险进行处理，所以当一条指令需要使用到上一条指令的计算结果时，流水线就会发生数据冒险。</p>
+<p>以下有几个措施来解决数据冒险问题：</p>
+<ol>
+<li>用暂停来避免数据冒险</li>
+<li>用转发来避免数据冒险</li>
+<li>加载&#x2F;使用数据冒险</li>
+</ol>
+<p>后面将会使用以下指令作为示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">irmovq $10, %rdx</span><br><span class="line">irmovq $3, %rax</span><br><span class="line">addlq %rdx, %rax</span><br><span class="line">halt</span><br></pre></td></tr></table></figure>
+
+<p>每条指令分别有以下几个阶段：</p>
+<ul>
+<li>F(fetch)：取指</li>
+<li>D(decode)：解码</li>
+<li>E(execute)：执行</li>
+<li>M(memory)：访存</li>
+<li>W(write back)：写回</li>
+</ul>
+<p>如果我们没有引入一个带反馈的流水线设计，那么以上指令就会出现如下问题：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>周期</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>irmovq $10, %rdx</td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>irmovq $3, %rax</td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>addlq %rdx, %rax</td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>halt</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>在第 4 周期时，addlq 进行译码时读取到的%rdx 和%rax 的值仍然是 0，因为前两条 irmovq 指令还没有完成 W 阶段，寄存器中的值还没有更新</p>
+<h4 id="使用暂停来避免数据冒险"><a href="#使用暂停来避免数据冒险" class="headerlink" title="使用暂停来避免数据冒险"></a>使用暂停来避免数据冒险</h4><p>最简单的解决方法就是在 addlq 和 irmovq 之间添加 nop 指令，使得 addlq 的 D 阶段在 irmovq 的 W 阶段之后，所以改造后的代码为：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>周期</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>irmovq $10, %rdx</td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>irmovq $3, %rax</td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>nop</td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>nop</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>nop</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>addlq %rdx, %rax</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+</tr>
+<tr>
+<td>halt</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+</tr>
+</tbody></table>
+<p>这样 addlq 阶段的 D 阶段就会变道第 7 周期，此时两个 irmovq 的 W 阶段都已经完成，这样 addlq 就能取到更新后的值了，解决了数据冒险问题，我们实际上并不会真的在两条指令中添加 3 个 nop 指令而是使用阻塞<br>我们会在 addlq 和 irmovq 指令之间添加 3 个 bubble，使得后续的指令阻塞在当前阶段，如图：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>周期</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>irmovq $10, %rdx</td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>irmovq $3, %rax</td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bubble</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bubble</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bubble</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>addlq %rdx, %rax</td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>D</td>
+<td>D</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+</tr>
+<tr>
+<td>halt</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>F</td>
+<td>F</td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+</tr>
+</tbody></table>
+<p>这样虽然能解决问题，但是这样会使得流水线暂停长达 3 个周期，严重降低了整体的吞吐量</p>
+<h4 id="使用转发来避免数据冒险"><a href="#使用转发来避免数据冒险" class="headerlink" title="使用转发来避免数据冒险"></a>使用转发来避免数据冒险</h4><p>当流水线进行到第 4 个周期的时候，addlq 正处在 D 阶段中，此时第一条 irmovq 指令正在 M 阶段，它的 M_valE 的值是 10，第二条 irmovq 指令正在 E 阶段，它的 e_valE 的值是 3，所以我们可以在这两个信号处搭建旁路将信号转发到 D 阶段中，这样 D 阶段就能将正确的值写入流水线寄存器中，所以我们需要一个控制器来发现数据冒险然后选择使用转发过来的信号，解决数据冒险，同时为了保证泛用性，我们会将更多的信号进行转发，最后我们会将 e_valE、m_valM、M_valE、W_valM、W_valE 这五个信号进行转发，所以最后的设计如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/14.jpg"></p>
+<h4 id="加载-使用数据冒险"><a href="#加载-使用数据冒险" class="headerlink" title="加载&#x2F;使用数据冒险"></a>加载&#x2F;使用数据冒险</h4><p>有一类数据冒险不能单纯用转发来解决，因为内存读在流水线发生的时候比较晚，所以我们无法将访存后才能得到的值转发到过去的过去发生的阶段中，因此我们只能使用暂停的方式在处理这个问题，比如以下例子：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>周期</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>irmovq $128, %rdx</td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>irmovq $3, %rcx</td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>rmmovq %rcx, 0(%rdx)</td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>irmovq $10, %rbx</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>mrmovq 0(%rdx), %rax</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>addlq %ebx, %eax</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+</tr>
+<tr>
+<td>halt</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+</tr>
+</tbody></table>
+<p>mrmovq 指令在内存中的值需要到 M 阶段后才能得到，无法通过转发来解决，所以我们会在 mrmovq 和 addlq 之间加入一条 bubble，这样就能在 mrmovq 的 W 阶段将值转发到 addlq 指令的 D 阶段<br>这种用暂停来处理加载&#x2F;使用数据冒险的方法称为加载互锁，使用加载互锁和转发技术结合起来足以处理所有可能的数据冒险。因为只有加载互锁才会降低流水线的吞吐量，所以我们几乎可以实现每一个周期都发射一条新指令的目标</p>
+<h4 id="避免控制冒险"><a href="#避免控制冒险" class="headerlink" title="避免控制冒险"></a>避免控制冒险</h4><p>当处理器没有办法根据处于取指阶段的当前指令来确定下一条指令的地址时，就会出现控制冒险。在前面我们的处理器设计中，控制冒险只会发生在 ret 指令和跳转指令。<br>对于 ret 指令，我们必须要通过访问栈帧才能知道具体的返回地址，所以当我们遇到了 ret 指令就会往后面插入 3 个 bubble 来暂停流水线，等到 ret 进行到 W 阶段时 PC 选择器就能知道下一条指令的地址，例如以下：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>周期</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>irmovq Stack, %rsp</td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>call proc</td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ret</td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bubble</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bubble</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bubble</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+</tr>
+<tr>
+<td>irmovq $10, %rdx</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+</tr>
+</tbody></table>
+<p>对于跳转指令，我们采用总是选择策略，预测跳转指令会选择分支，对于以下例子，当 jne 指令到 E 阶段也就是第 4 周期时，分支逻辑发现不应该选择分支，但是此时已经选择我们已经取出了两条指令，它们不应该执行下去了，所以我们会为已经进入流水线的两条指令都给一个 bubble 来阻塞住它们，这样它们就不会进行到 E 阶段，影响程序员可见的状态。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  xorq %rax, %rax</span><br><span class="line">  jne target      # not taken</span><br><span class="line">  irmovq $1, %rax # fall through</span><br><span class="line">  halt</span><br><span class="line">target:</span><br><span class="line">  irmovq $2, %rdx # target</span><br><span class="line">  irmovq $3, %rbx # target + 1</span><br><span class="line">  halt</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>周期</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xorq %rax, %rax</td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>jne target</td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>irmovl $2, %rdx</td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bubble</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+</tr>
+<tr>
+<td>irmovq $3, %rbx</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+<td></td>
+</tr>
+<tr>
+<td>bubble</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+</tr>
+<tr>
+<td>irmovq $1, %rax</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>F</td>
+<td>D</td>
+<td>E</td>
+<td>M</td>
+<td>W</td>
+</tr>
+</tbody></table>
+<h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h3><p>处理器中很多事情都会导致异常控制流，此时，程序执行的正常流程就会被破坏掉。异常可以由程序执行从内部产生，也可以由某个外部信号从外部产生。在我们的 ISA 中包括三种不同的内部产生的异常：</p>
+<ol>
+<li>halt 指令</li>
+<li>非法指令和功能码组合的指令</li>
+<li>取指或数据读写尝试访问一个非法地址</li>
+</ol>
+<p>除此之外，还有三个细节问题：</p>
+<ul>
+<li>流水线中可能会同时有多条指令导致异常，比如处在取指阶段中有 halt 指令，而数据内存报告访存阶段的阶段出现了指令地址越界的问题。我们处理这个问题的原则是：有流水线中最深的指令引起的异常的优先级最高。</li>
+<li>取出了一条指令进入流水线中，但是由于分支预测失败取消了这条指令，也就说这条指令本不会实际影响执行结果但是去导致了异常。所以我们需要避免出现这个异常。</li>
+<li>当一条指令导致了一个异常，而后面的指令已经更新了处理器的状态，比如 pushq %rax，此时的 %rsp 为 0x0000000000000000，那么 pushq 指令就会向 0xfffffffffffffff8 中插入数据，但是这会在访存阶段导致一个异常，如果后面紧跟着一条 addq 指令，那么指令就会在执行阶段更新 CC，但实际上并不应该对 CC 进行更改。所以我们应该要能够发现出现了这个异常然后停止执行。</li>
+</ul>
+<h3 id="PIPE-各阶段的实现"><a href="#PIPE-各阶段的实现" class="headerlink" title="PIPE 各阶段的实现"></a>PIPE 各阶段的实现</h3><h4 id="PC-选择和取指阶段"><a href="#PC-选择和取指阶段" class="headerlink" title="PC 选择和取指阶段"></a>PC 选择和取指阶段</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/15.jpg"></p>
+<h4 id="译码和写回阶段-1"><a href="#译码和写回阶段-1" class="headerlink" title="译码和写回阶段"></a>译码和写回阶段</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/16.jpg"></p>
+<h4 id="执行阶段-1"><a href="#执行阶段-1" class="headerlink" title="执行阶段"></a>执行阶段</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/17.jpg"></p>
+<h4 id="访存阶段-1"><a href="#访存阶段-1" class="headerlink" title="访存阶段"></a>访存阶段</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/18.jpg"></p>
+<h3 id="流水线控制逻辑"><a href="#流水线控制逻辑" class="headerlink" title="流水线控制逻辑"></a>流水线控制逻辑</h3><p>为了能够控制流水线，我们会为流水线引入几个机制，分别是正常，暂停和气泡，这三种模式分别会对流水线寄存器产生以下影响：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/19.jpg"></p>
+<p>最后再根据具体指令来得到具体的控制逻辑：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post/03b23ak4/20.jpg"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://lanal.site/blog">AnA</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lanal.site/blog/post/03b23ak4.html">https://lanal.site/blog/post/03b23ak4.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lanal.site/blog" target="_blank">AnA.</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">深入理解计算机系统</a></div><div class="post_share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://lanal.site/file/blog/wechat.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://lanal.site/file/blog/alipay.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/blog/post/34f041e5.html" title="后端开发基础（三）- maven"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/9.jpg" onerror="onerror=null;src='/blog/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">后端开发基础（三）- maven</div></div></a></div><div class="next-post pull-right"><a href="/blog/post/37jfws7d.html" title="计算机系统漫游"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/13.jpg" onerror="onerror=null;src='/blog/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机系统漫游</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/blog/post/37jfws7d.html" title="衡量计算机性能标准"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/20.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-30</div><div class="title">衡量计算机性能标准</div></div></a></div><div><a href="/blog/post/8705251a.html" title="信息的表示和处理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-31</div><div class="title">信息的表示和处理</div></div></a></div><div><a href="/blog/post/869285ma.html" title="程序的机器级表示"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/14.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-05</div><div class="title">程序的机器级表示</div></div></a></div><div><a href="/blog/post/f1u3bpyv.html" title="深入理解计算机系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/21.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-30</div><div class="title">深入理解计算机系统</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/avatar.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">AnA</div><div class="author-info__description">一个努力做全栈开发的广财er~💻</div></div><div class="card-info-data site-data is-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">46</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/AnA-0823"><i class="fab fa-github"></i><span>前往小窝🚗</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:1157559178@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的小站</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Y86-64"><span class="toc-text">Y86-64</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81"><span class="toc-text">状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4"><span class="toc-text">指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E7%BC%96%E7%A0%81"><span class="toc-text">指令编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8"><span class="toc-text">异常</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E8%AE%BE%E8%AE%A1%E5%92%8C%E7%A1%AC%E4%BB%B6%E6%8E%A7%E5%88%B6%E8%AF%AD%E8%A8%80%EF%BC%88HCL%EF%BC%89"><span class="toc-text">逻辑设计和硬件控制语言（HCL）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E9%97%A8"><span class="toc-text">逻辑门</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%92%8C-hcl-%E5%B8%83%E5%B0%94%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">组合逻辑电路和 hcl 布尔表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%99%A8%E5%92%8C%E6%97%B6%E9%92%9F"><span class="toc-text">存储器和时钟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Y86-64-%E7%9A%84%E9%A1%BA%E5%BA%8F%E5%AE%9E%E7%8E%B0"><span class="toc-text">Y86-64 的顺序实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E5%A4%84%E7%90%86%E7%BB%84%E7%BB%87%E6%88%90%E9%98%B6%E6%AE%B5"><span class="toc-text">将处理组织成阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SEQ-%E7%A1%AC%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-text">SEQ 硬件结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SEQ-%E6%97%B6%E5%BA%8F"><span class="toc-text">SEQ 时序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SEQ-%E9%98%B6%E6%AE%B5%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">SEQ 阶段的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%96%E6%8C%87%E9%98%B6%E6%AE%B5"><span class="toc-text">取指阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%91%E7%A0%81%E5%92%8C%E5%86%99%E5%9B%9E%E9%98%B6%E6%AE%B5"><span class="toc-text">译码和写回阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5"><span class="toc-text">执行阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BF%E5%AD%98%E9%98%B6%E6%AE%B5"><span class="toc-text">访存阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0-PC-%E9%98%B6%E6%AE%B5"><span class="toc-text">更新 PC 阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SEQ-%E5%B0%8F%E7%BB%93"><span class="toc-text">SEQ 小结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E9%80%9A%E7%94%A8%E5%8E%9F%E7%90%86"><span class="toc-text">流水线的通用原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-text">计算流水线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-text">流水线的局限性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%8D%E9%A6%88%E7%9A%84%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AE%BE%E8%AE%A1"><span class="toc-text">带反馈的流水线设计</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Y86-64-%E7%9A%84%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%AE%9E%E7%8E%B0"><span class="toc-text">Y86-64 的流水线实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SEQ"><span class="toc-text">SEQ+</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">插入流水线寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E6%B5%8B%E4%B8%8B%E4%B8%80%E4%B8%AA-PC"><span class="toc-text">预测下一个 PC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%86%92%E9%99%A9"><span class="toc-text">流水线冒险</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%9A%82%E5%81%9C%E6%9D%A5%E9%81%BF%E5%85%8D%E6%95%B0%E6%8D%AE%E5%86%92%E9%99%A9"><span class="toc-text">使用暂停来避免数据冒险</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%BD%AC%E5%8F%91%E6%9D%A5%E9%81%BF%E5%85%8D%E6%95%B0%E6%8D%AE%E5%86%92%E9%99%A9"><span class="toc-text">使用转发来避免数据冒险</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD-%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%86%92%E9%99%A9"><span class="toc-text">加载&#x2F;使用数据冒险</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E6%8E%A7%E5%88%B6%E5%86%92%E9%99%A9"><span class="toc-text">避免控制冒险</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-text">异常处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PIPE-%E5%90%84%E9%98%B6%E6%AE%B5%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">PIPE 各阶段的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PC-%E9%80%89%E6%8B%A9%E5%92%8C%E5%8F%96%E6%8C%87%E9%98%B6%E6%AE%B5"><span class="toc-text">PC 选择和取指阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%91%E7%A0%81%E5%92%8C%E5%86%99%E5%9B%9E%E9%98%B6%E6%AE%B5-1"><span class="toc-text">译码和写回阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5-1"><span class="toc-text">执行阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BF%E5%AD%98%E9%98%B6%E6%AE%B5-1"><span class="toc-text">访存阶段</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%8E%A7%E5%88%B6%E9%80%BB%E8%BE%91"><span class="toc-text">流水线控制逻辑</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: none"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By AnA</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">一个讨论技术和作为个人知识库的小站</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat-btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=4.13.0"></script><script src="/blog/js/main.js?v=4.13.0"></script><script src="/blog/js/tw_cn.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      document.querySelectorAll(".abc-music-sheet").forEach(ele => {
+        ABCJS.renderAbc(ele, ele.innerHTML, {responsive: 'resize'})
+      })
+    }
+    
+    typeof ABCJS === 'object' ? abcjsFn()
+      : getScript('https://cdn.jsdelivr.net/npm/abcjs@6.3.0/dist/abcjs-basic-min.min.js').then(abcjsFn)
+  }
+
+  window.pjax ? abcjsInit() : window.addEventListener('load', abcjsInit)
+})()</script><script>(() => {
+  const loadUtterances = () => {
+    let ele = document.createElement('script')
+    ele.id = 'utterances_comment'
+    ele.src = 'https://utteranc.es/client.js'
+    ele.setAttribute('repo', 'AnA-0823/comment')
+    ele.setAttribute('issue-term', 'pathname')
+    const nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'github-dark' : 'github-light'
+    ele.setAttribute('theme', nowTheme)
+    ele.crossOrigin = 'anonymous'
+    ele.async = true
+    document.getElementById('utterances-wrap').appendChild(ele)
+  }
+
+  const utterancesTheme = theme => {
+    const iframe = document.querySelector('.utterances-frame')
+    if (iframe) {
+      const theme = theme === 'dark' ? 'github-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  btf.addGlobalFn('themeChange', utterancesTheme, 'utterances')
+
+  if ('Utterances' === 'Utterances' || !true) {
+    if (true) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><canvas id="universe"></canvas><script defer src="/blog/js/universe.js"></script><script>(() => {
+  window.$crisp = [];
+  window.CRISP_WEBSITE_ID = "7f92a049-11a1-42b1-91dc-f8795aa5a3b8";
+  (function () {
+    d = document;
+    s = d.createElement("script");
+    s.src = "https://client.crisp.chat/l.js";
+    s.async = 1;
+    d.getElementsByTagName("head")[0].appendChild(s);
+  })();
+  $crisp.push(["safe", true])
+
+  const isChatBtn = true
+  const isChatHideShow = true
+
+  if (isChatBtn) {
+    const open = () => {
+      $crisp.push(["do", "chat:show"])
+      $crisp.push(["do", "chat:open"])
+    }
+
+    const close = () => {
+      $crisp.push(["do", "chat:hide"])
+    }
+
+    close()
+    $crisp.push(["on", "chat:closed", function() {
+      close()
+    }])
+
+    window.chatBtnFn = () => {
+      $crisp.is("chat:visible") ? close() : open()
+    }
+  } else if (isChatHideShow) {
+    window.chatBtn = {
+      hide: () => {
+        $crisp.push(["do", "chat:hide"])
+      },
+      show: () => {
+        $crisp.push(["do", "chat:show"])
+      }
+    }
+  }
+})()</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["link[rel=\"canonical\"]","meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/blog/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/blog/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/blog/'|| '/blog/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/前端开发/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🌐 AnAの前端开发笔记 (6)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/后端开发/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🖥🖱 AnAの后端开发笔记 (5)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/数据结构与算法/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🔢📊💡 AnAの数据结构与算法学习笔记 (4)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/深入理解计算机系统/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">💻 AnAのcsapp学习笔记 (6)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/Java基础/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">☕ AnAのJava基础笔记 (17)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/spring/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🌱 AnAのspring笔记 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/hexo/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📝 AnAの博客搭建笔记 (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/基础知识/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🌀 AnAの杂类笔记 (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item" style="visibility: hidden"></div><a class="magnet_link_more"  href="https://lanal.site/blog/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(33.333333333333336% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #49B1F5}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/blog/';
+  var qweather_key = 'b16a1fa0e63c46a4b8f28abfb06ae3fe';
+  var gaud_map_key = 'df8d8ea3d8bdfe4464932625f8559081';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/6706d621.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/2.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-03</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/6706d621.html&quot;);" href="javascript:void(0);" alt="">基于hexo搭建博客基础（一）</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/6706d621.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/sunqxf91.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/2.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-03</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/sunqxf91.html&quot;);" href="javascript:void(0);" alt="">基于hexo搭建博客基础（二）</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/sunqxf91.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/r51bjcg8.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/9.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-03</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/r51bjcg8.html&quot;);" href="javascript:void(0);" alt="">基于hexo搭建博客基础（三）</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/r51bjcg8.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/x766a8l8.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/11.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-14</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/x766a8l8.html&quot;);" href="javascript:void(0);" alt="">前端开发基础（一）- 学习路线</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/x766a8l8.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/z3823524.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/16.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-19</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/z3823524.html&quot;);" href="javascript:void(0);" alt="">后端开发基础（一）- 简介</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/z3823524.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/4u11a4r5.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/21.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-10-28</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/4u11a4r5.html&quot;);" href="javascript:void(0);" alt="">数据结构与算法</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/4u11a4r5.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/f1u3bpyv.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/21.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-10-30</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/f1u3bpyv.html&quot;);" href="javascript:void(0);" alt="">深入理解计算机系统</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/f1u3bpyv.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/blog/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '0.75s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '2');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --><script src="/blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/blog/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body></html>

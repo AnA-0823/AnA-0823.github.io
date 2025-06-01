@@ -1,18 +1,18 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>后端开发基础（二）- Java基础 | AnA.</title><meta name="author" content="AnA"><meta name="copyright" content="AnA"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="后端开发导航 🌏后端开发基础（一）- 简介后端开发基础（二）- Java基础后端开发基础（三）- maven  前言Java 是一种高级、面向对象的编程语言，以其可移植性、健壮性和可扩展性而闻名。 Java 由 Sun Microsystems（现为 Oracle）开发，遵循“一次编写，随处运行”的原则，允许代码在任何具有 Java 虚拟机 (JVM) 的设备上运行。它广泛用于构建大型企业应用程">
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>后端开发基础（二）- Java基础 | AnA.</title><meta name="author" content="AnA"><meta name="copyright" content="AnA"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="后端开发导航 🌏后端开发基础（一）- 简介后端开发基础（二）- Java基础后端开发基础（三）- maven后端开发基础（四）- SQL  前言Java 是一种高级、面向对象的编程语言，以其可移植性、健壮性和可扩展性而闻名。 Java 由 Sun Microsystems（现为 Oracle）开发，遵循”一次编写，随处运行”的原则，允许代码在任何具有 Java 虚拟机 (JVM) 的设备上运行。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="后端开发基础（二）- Java基础">
-<meta property="og:url" content="https://ana-0823.github.io/post/u9rubdog.html">
+<meta property="og:url" content="https://lanal.site/blog/post/u9rubdog.html">
 <meta property="og:site_name" content="AnA.">
-<meta property="og:description" content="后端开发导航 🌏后端开发基础（一）- 简介后端开发基础（二）- Java基础后端开发基础（三）- maven  前言Java 是一种高级、面向对象的编程语言，以其可移植性、健壮性和可扩展性而闻名。 Java 由 Sun Microsystems（现为 Oracle）开发，遵循“一次编写，随处运行”的原则，允许代码在任何具有 Java 虚拟机 (JVM) 的设备上运行。它广泛用于构建大型企业应用程">
+<meta property="og:description" content="后端开发导航 🌏后端开发基础（一）- 简介后端开发基础（二）- Java基础后端开发基础（三）- maven后端开发基础（四）- SQL  前言Java 是一种高级、面向对象的编程语言，以其可移植性、健壮性和可扩展性而闻名。 Java 由 Sun Microsystems（现为 Oracle）开发，遵循”一次编写，随处运行”的原则，允许代码在任何具有 Java 虚拟机 (JVM) 的设备上运行。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ana-0823.github.io/img/6.jpg">
+<meta property="og:image" content="https://lanal.site/file/blog/post-cover/19.jpg">
 <meta property="article:published_time" content="2024-10-15T21:31:09.000Z">
-<meta property="article:modified_time" content="2024-10-15T22:23:42.064Z">
+<meta property="article:modified_time" content="2025-03-28T16:30:24.525Z">
 <meta property="article:author" content="AnA">
 <meta property="article:tag" content="后端开发">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ana-0823.github.io/img/6.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://ana-0823.github.io/post/u9rubdog.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+<meta name="twitter:image" content="https://lanal.site/file/blog/post-cover/19.jpg"><link rel="shortcut icon" href="/blog/img/favicon.png"><link rel="canonical" href="https://lanal.site/blog/post/u9rubdog.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/blog/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
   hm.src = "https://hm.baidu.com/hm.js?efa12f4391544b7616ac7a152161eb67";
@@ -20,9 +20,9 @@
   s.parentNode.insertBefore(hm, s);
 })();
 </script><script>const GLOBAL_CONFIG = {
-  root: '/',
+  root: '/blog/',
   algolia: undefined,
-  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  localSearch: {"path":"/blog/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
   translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
   noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
   highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
@@ -64,7 +64,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2024-10-16 06:23:42'
+  postUpdate: '2025-03-29 00:30:24'
 }</script><script>(win=>{
       win.saveToLocal = {
         set: (key, value, ttl) => {
@@ -161,214 +161,830 @@
         }
       }
       detectApple()
-    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 4s linear infinite; }</style><style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');</style><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+    })(window)</script><link rel="stylesheet" href="/blog/css/custom.css"><link rel="stylesheet" href="/blog/css/universe.css"><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 4s linear infinite; }</style><style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');</style><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
   restartOnPushState: false
 }
 
 document.addEventListener('pjax:send', () => {
   Pace.restart()
 })
-</script><link rel="stylesheet" href="/css/corner-indicator.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">38</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/movie/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/6.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="AnA."><span class="site-name">AnA.</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/movie/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">后端开发基础（二）- Java基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-10-15T21:31:09.000Z" title="发表于 2024-10-16 05:31:09">2024-10-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-10-15T22:23:42.064Z" title="更新于 2024-10-16 06:23:42">2024-10-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="后端开发基础（二）- Java基础"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="note info no-icon flat"><h3 id="后端开发导航-🌏"><a href="#后端开发导航-🌏" class="headerlink" title="后端开发导航 🌏"></a>后端开发导航 🌏</h3><ol><li><a href="/post/z3823524.html" title="后端开发基础（一）- 简介">后端开发基础（一）- 简介</a></li><li><a href="/post/u9rubdog.html" title="后端开发基础（二）- Java基础">后端开发基础（二）- Java基础</a></li><li><a href="/post/34f041e5.html" title="后端开发基础（三）- maven">后端开发基础（三）- maven</a></li></ol></div>
+</script><link rel="stylesheet" href="/blog/css/corner-indicator.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">46</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/blog/movie/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li><li><a class="site-page child" href="/blog/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/blog/gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/blog/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://lanal.site/file/blog/post-cover/19.jpg')"><nav id="nav"><span id="blog-info"><a href="/blog/" title="AnA."><span class="site-name">AnA.</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/blog/movie/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li><li><a class="site-page child" href="/blog/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/blog/gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/blog/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">后端开发基础（二）- Java基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-10-15T21:31:09.000Z" title="发表于 2024-10-16 05:31:09">2024-10-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-28T16:30:24.525Z" title="更新于 2025-03-29 00:30:24">2025-03-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="后端开发基础（二）- Java基础"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="note info no-icon flat"><h3 id="后端开发导航-🌏"><a href="#后端开发导航-🌏" class="headerlink" title="后端开发导航 🌏"></a>后端开发导航 🌏</h3><ol><li><a href="/blog/post/z3823524.html" title="后端开发基础（一）- 简介">后端开发基础（一）- 简介</a></li><li><a href="/blog/post/u9rubdog.html" title="后端开发基础（二）- Java基础">后端开发基础（二）- Java基础</a></li><li><a href="/blog/post/34f041e5.html" title="后端开发基础（三）- maven">后端开发基础（三）- maven</a></li><li><a href="/blog/post/h12hgndk.html" title="后端开发基础（四）- SQL">后端开发基础（四）- SQL</a></li></ol></div>
 
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Java 是一种高级、面向对象的编程语言，以其可移植性、健壮性和可扩展性而闻名。 Java 由 Sun Microsystems（现为 Oracle）开发，遵循“一次编写，随处运行”的原则，允许代码在任何具有 Java 虚拟机 (JVM) 的设备上运行。它广泛用于构建大型企业应用程序、Android 移动应用程序和 Web 服务。 Java 具有自动内存管理（垃圾收集）、庞大的标准库和强大的安全功能，使其成为后端系统、分布式应用程序和基于云的解决方案的流行选择。学习 Java 语言也是为之后深入学习企业常用的后端开发框架 SSM 打好基础。</p>
-<h2 id="学习路线"><a href="#学习路线" class="headerlink" title="学习路线"></a>学习路线</h2><ol>
-<li><p><strong>Java 环境配置</strong></p>
-<ul>
-<li><strong>安装 JDK</strong>：下载并安装最新版本的 JDK，理解 JDK 与 JRE 的区别。</li>
-<li><strong>IDE 使用</strong>：学习如何使用集成开发环境（如 IntelliJ IDEA、Eclipse 或 VS Code）编写和运行 Java 程序。</li>
-<li><strong>命令行编译和运行</strong>：熟悉使用 <code>javac</code> 编译 Java 文件和 <code>java</code> 命令运行 Java 程序。</li>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Java 是一种高级、面向对象的编程语言，以其可移植性、健壮性和可扩展性而闻名。 Java 由 Sun Microsystems（现为 Oracle）开发，遵循”一次编写，随处运行”的原则，允许代码在任何具有 Java 虚拟机 (JVM) 的设备上运行。它广泛用于构建大型企业应用程序、Android 移动应用程序和 Web 服务。 Java 具有自动内存管理（垃圾收集）、庞大的标准库和强大的安全功能，使其成为后端系统、分布式应用程序和基于云的解决方案的流行选择。学习 Java 语言也是为之后深入学习企业常用的后端开发框架 SSM 打好基础。</p>
+<h2 id="学习路线"><a href="#学习路线" class="headerlink" title="学习路线"></a>学习路线</h2><h3 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1. 环境准备"></a>1. 环境准备</h3><h4 id="JDK安装与配置"><a href="#JDK安装与配置" class="headerlink" title="JDK安装与配置"></a>JDK安装与配置</h4><ul>
+<li>了解JDK、JRE和JVM的区别与关系</li>
+<li>选择适合的JDK版本（如LTS版本：JDK 8、JDK 11、JDK 17）</li>
+<li>下载与安装JDK</li>
+<li>配置JAVA_HOME、PATH等环境变量</li>
+<li>验证安装成功（使用java -version命令）</li>
+</ul>
+<h4 id="开发工具选择"><a href="#开发工具选择" class="headerlink" title="开发工具选择"></a>开发工具选择</h4><ul>
+<li>Eclipse IDE：安装、配置插件和工作空间设置</li>
+<li>IntelliJ IDEA：社区版vs专业版、安装和基本设置</li>
+<li>VS Code：安装Java扩展包和配置</li>
+<li>熟悉IDE的基本功能：代码提示、断点调试、快捷键等</li>
+<li>版本控制工具集成（Git）</li>
+</ul>
+<h4 id="编写第一个程序"><a href="#编写第一个程序" class="headerlink" title="编写第一个程序"></a>编写第一个程序</h4><ul>
+<li>了解Java程序的基本结构（类、方法、包）</li>
+<li>编写并运行Hello World程序</li>
+<li>理解main方法的作用和参数</li>
+<li>熟悉编译和运行的过程（javac和java命令）</li>
+<li>掌握基本的程序调试方法</li>
+</ul>
+<h3 id="2-Java语法基础"><a href="#2-Java语法基础" class="headerlink" title="2. Java语法基础"></a>2. Java语法基础</h3><h4 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h4><ul>
+<li>标识符：命名规则和命名约定</li>
+<li>关键字：Java预留的关键字及其用途</li>
+<li>注释：单行注释、多行注释、文档注释（Javadoc）</li>
+<li>基本数据类型：整型（byte、short、int、long）、浮点型（float、double）、字符型（char）、布尔型（boolean）</li>
+<li>类型转换：自动类型转换和强制类型转换</li>
+<li>字面量：整数、浮点数、字符、字符串、布尔字面量</li>
+</ul>
+<h4 id="变量与常量"><a href="#变量与常量" class="headerlink" title="变量与常量"></a>变量与常量</h4><ul>
+<li>变量声明和初始化语法</li>
+<li>局部变量、成员变量、静态变量的区别</li>
+<li>变量作用域和生命周期</li>
+<li>常量（final）的定义和使用</li>
+<li>命名规范与最佳实践</li>
+</ul>
+<h4 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h4><ul>
+<li>算术运算符：+、-、*、&#x2F;、%、++、–</li>
+<li>关系运算符：&#x3D;&#x3D;、!&#x3D;、&gt;、&lt;、&gt;&#x3D;、&lt;&#x3D;</li>
+<li>逻辑运算符：&amp;&amp;、||、!</li>
+<li>位运算符：&amp;、|、^、~、&lt;&lt;、&gt;&gt;、&gt;&gt;&gt;</li>
+<li>赋值运算符：&#x3D;、+&#x3D;、-&#x3D;、*&#x3D;、&#x2F;&#x3D;等</li>
+<li>条件运算符（三元运算符）：? :</li>
+<li>运算符优先级和结合性</li>
+</ul>
+<h4 id="控制流"><a href="#控制流" class="headerlink" title="控制流"></a>控制流</h4><ul>
+<li>条件语句<ul>
+<li>if语句：简单if、if-else、if-else if-else</li>
+<li>switch语句：基本用法、支持的数据类型、fall-through特性</li>
 </ul>
 </li>
-<li><p><strong>基础语法</strong></p>
-<ul>
-<li><strong>基本数据类型</strong>：<ul>
-<li>八种原始数据类型：<code>int</code>、<code>char</code>、<code>double</code>、<code>boolean</code> 等。</li>
-<li>包装类：了解原始数据类型对应的包装类（如 <code>Integer</code>、<code>Double</code>）。</li>
+<li>循环语句<ul>
+<li>for循环：标准for循环、增强for循环（for-each）</li>
+<li>while循环：前测试循环</li>
+<li>do-while循环：后测试循环</li>
 </ul>
 </li>
-<li><strong>变量与常量</strong>：学习局部变量、成员变量、<code>final</code> 常量的定义与使用。</li>
-<li><strong>运算符</strong>：掌握基本运算符（算术运算符、关系运算符、逻辑运算符、位运算符等）。</li>
-<li><strong>流程控制</strong>：<ul>
-<li>条件语句：<code>if</code>、<code>else if</code>、<code>else</code>、<code>switch</code>。</li>
-<li>循环语句：<code>for</code>、<code>while</code>、<code>do-while</code>。</li>
+<li>跳转语句<ul>
+<li>break：跳出循环或switch</li>
+<li>continue：跳过当前循环</li>
+<li>return：从方法返回</li>
+<li>带标签的break和continue</li>
 </ul>
 </li>
-<li><strong>输入输出</strong>：<ul>
-<li>使用 <code>Scanner</code> 获取用户输入。</li>
-<li>基本的 <code>System.out.println</code> 和 <code>System.in</code> 输入。</li>
+<li>循环嵌套与控制技巧</li>
+</ul>
+<h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><ul>
+<li>一维数组：声明、创建、初始化</li>
+<li>数组索引和元素访问</li>
+<li>数组长度和遍历方法</li>
+<li>多维数组：二维数组及更高维度</li>
+<li>不规则数组（锯齿形数组）</li>
+<li>Arrays工具类基本使用：排序、查找、填充、比较等</li>
+<li>数组常见算法：查找、排序、合并、复制等</li>
+</ul>
+<h3 id="3-面向对象编程"><a href="#3-面向对象编程" class="headerlink" title="3. 面向对象编程"></a>3. 面向对象编程</h3><h4 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h4><ul>
+<li>类的定义：结构和语法</li>
+<li>对象的创建与使用：new关键字</li>
+<li>构造方法：默认构造器、带参构造器</li>
+<li>构造方法重载和链式调用（this()）</li>
+<li>对象引用和内存模型</li>
+<li>垃圾回收机制和finalize方法</li>
+<li>对象比较：&#x3D;&#x3D;和equals方法</li>
+</ul>
+<h4 id="三大特性"><a href="#三大特性" class="headerlink" title="三大特性"></a>三大特性</h4><ul>
+<li>封装<ul>
+<li>访问控制与信息隐藏</li>
+<li>getter和setter方法</li>
+<li>封装的意义和最佳实践</li>
 </ul>
 </li>
+<li>继承<ul>
+<li>extends关键字和继承语法</li>
+<li>父类和子类关系</li>
+<li>方法继承和覆盖</li>
+<li>构造方法与继承：super()</li>
+<li>继承的限制（final类等）</li>
+<li>多层继承与继承层次</li>
 </ul>
 </li>
-<li><p><strong>方法和参数</strong></p>
-<ul>
-<li><strong>方法的定义与调用</strong>：<ul>
-<li>定义带有返回值和不带返回值的方法。</li>
-<li>传递参数，值传递机制。</li>
-</ul>
-</li>
-<li><strong>方法的重载</strong>：学习同名方法的不同参数列表。</li>
-<li><strong>递归</strong>：编写递归方法，理解递归的原理及其应用场景。</li>
-</ul>
-</li>
-<li><p><strong>面向对象编程 (OOP)</strong></p>
-<ul>
-<li><strong>类与对象</strong>：<ul>
-<li>创建类与对象，理解类的结构（字段、方法、构造器）。</li>
-<li>实例化对象，使用构造方法初始化对象。</li>
-<li><code>this</code> 关键字的使用，理解其作用。</li>
-</ul>
-</li>
-<li><strong>封装</strong>：<ul>
-<li>使用 <code>private</code>、<code>public</code>、<code>protected</code> 修饰符封装类中的数据。</li>
-<li>编写 getter 和 setter 方法访问类的私有字段。</li>
-</ul>
-</li>
-<li><strong>继承</strong>：<ul>
-<li>理解继承的概念，使用 <code>extends</code> 实现类的继承。</li>
-<li>方法重写（<code>@Override</code>）和构造器的继承。</li>
-<li><code>super</code> 关键字的使用。</li>
-</ul>
-</li>
-<li><strong>多态</strong>：<ul>
-<li>理解多态的概念，父类引用指向子类对象。</li>
-<li>方法重载和方法重写的区别。</li>
-</ul>
-</li>
-<li><strong>抽象类与接口</strong>：<ul>
-<li>理解抽象类的定义与作用，使用 <code>abstract</code> 关键字。</li>
-<li>接口的定义，使用 <code>implements</code> 实现接口。</li>
-<li>Java 8 中的接口默认方法与静态方法。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>常用类</strong></p>
-<ul>
-<li><strong>String 类</strong>：<ul>
-<li>理解 <code>String</code> 是不可变的。</li>
-<li>常用方法：<code>length()</code>、<code>substring()</code>、<code>equals()</code>、<code>trim()</code>、<code>toUpperCase()</code>、<code>toLowerCase()</code>、<code>split()</code> 等。</li>
-<li><code>StringBuilder</code> 和 <code>StringBuffer</code> 的区别及其用法。</li>
-</ul>
-</li>
-<li><strong>包装类</strong>：<ul>
-<li>使用 <code>Integer</code>、<code>Double</code> 等包装类。</li>
-<li>基本数据类型与包装类的自动装箱与拆箱。</li>
-</ul>
-</li>
-<li><strong>Math 类</strong>：<ul>
-<li>常见数学方法：<code>Math.abs()</code>、<code>Math.pow()</code>、<code>Math.sqrt()</code>、<code>Math.random()</code> 等。</li>
-</ul>
-</li>
-<li><strong>大数运算类</strong>：<ul>
-<li>大整数运算类：<code>BigInteger</code>类。</li>
-<li>大实数运算类：<code>BigDecimal</code>类。</li>
-</ul>
-</li>
-<li><strong>日期与时间类</strong>：<ul>
-<li>Java 8 之前的 <code>Date</code>、<code>Calendar</code> 类。</li>
-<li>Java 8 之后的 <code>LocalDate</code>、<code>LocalTime</code>、<code>LocalDateTime</code>、<code>DateTimeFormatter</code>。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>数组与集合</strong></p>
-<ul>
-<li><strong>数组</strong>：<ul>
-<li>声明与初始化数组：一维数组与多维数组。</li>
-<li>遍历数组，常见操作（排序、查找）。</li>
-</ul>
-</li>
-<li><strong>集合框架</strong>：<ul>
-<li><strong>List</strong>：如 <code>ArrayList</code>、<code>LinkedList</code> 的使用及其区别。</li>
-<li><strong>Set</strong>：如 <code>HashSet</code>、<code>TreeSet</code>，理解集合中的元素无序性与唯一性。</li>
-<li><strong>Map</strong>：如 <code>HashMap</code>、<code>TreeMap</code>，键值对存储结构，常用方法如 <code>put()</code>、<code>get()</code>、<code>keySet()</code>。</li>
-<li><strong>迭代器</strong>：使用 <code>Iterator</code> 和增强型 <code>for</code> 循环遍历集合。</li>
+<li>多态<ul>
+<li>向上转型与向下转型</li>
+<li>运行时多态vs编译时多态</li>
+<li>动态绑定机制</li>
+<li>instanceof操作符和类型检查</li>
+<li>多态的实际应用场景</li>
 </ul>
 </li>
 </ul>
+<h4 id="成员变量与方法"><a href="#成员变量与方法" class="headerlink" title="成员变量与方法"></a>成员变量与方法</h4><ul>
+<li>实例变量：声明、初始化、访问</li>
+<li>类变量（静态变量）：static关键字</li>
+<li>实例方法：定义和调用</li>
+<li>静态方法：定义和限制</li>
+<li>方法参数：值传递vs引用传递</li>
+<li>方法重载（Overloading）：规则和用例</li>
+<li>方法重写（Overriding）：规则和注意事项</li>
+<li>可变参数方法（varargs）</li>
+</ul>
+<h4 id="访问修饰符"><a href="#访问修饰符" class="headerlink" title="访问修饰符"></a>访问修饰符</h4><ul>
+<li>public：完全公开</li>
+<li>protected：包内和子类可见</li>
+<li>default（无修饰符）：包内可见</li>
+<li>private：仅类内可见</li>
+<li>修饰符的适用范围：类、方法、字段</li>
+<li>封装中的访问控制选择原则</li>
+<li>多个修饰符组合使用</li>
+</ul>
+<h4 id="抽象类与接口"><a href="#抽象类与接口" class="headerlink" title="抽象类与接口"></a>抽象类与接口</h4><ul>
+<li>抽象类<ul>
+<li>abstract关键字</li>
+<li>抽象方法与具体方法</li>
+<li>抽象类的继承规则</li>
+<li>何时使用抽象类</li>
+</ul>
 </li>
-<li><p><strong>Stream API</strong></p>
-<ul>
-<li><strong>基本概念</strong>：理解流是什么，为什么要使用流，分清楚中间操作和终止操作。</li>
-<li><strong>常用操作</strong>：<ul>
-<li><strong>常用的中间操作</strong>：如<code>map()</code>、<code>filter()</code>、<code>sorted()</code>、<code>distinct()</code>等。</li>
-<li><strong>常用的终止操作</strong>：如<code>forEach()</code>、<code>collect()</code>、<code>reduce()</code>、<code>count()</code>等。</li>
+<li>接口<ul>
+<li>interface定义语法</li>
+<li>接口中的方法和常量</li>
+<li>接口实现：implements关键字</li>
+<li>多接口实现</li>
+<li>接口继承：extends关键字</li>
+<li>默认方法和静态方法（Java 8+）</li>
+<li>函数式接口（@FunctionalInterface）</li>
+</ul>
+</li>
+<li>抽象类vs接口：选择指南</li>
+</ul>
+<h4 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h4><ul>
+<li>静态内部类：定义和使用</li>
+<li>非静态内部类（成员内部类）：定义、使用和外部类引用</li>
+<li>局部内部类：方法内定义的类</li>
+<li>匿名内部类：没有名字的内部类</li>
+<li>内部类的应用场景和访问规则</li>
+<li>嵌套内部类和继承关系</li>
+<li>Lambda表达式与匿名内部类的关系</li>
+</ul>
+<h3 id="4-Java核心类"><a href="#4-Java核心类" class="headerlink" title="4. Java核心类"></a>4. Java核心类</h3><h4 id="Object类"><a href="#Object类" class="headerlink" title="Object类"></a>Object类</h4><ul>
+<li>Object作为所有类的基类</li>
+<li>toString()方法：默认实现和重写</li>
+<li>equals()方法：相等性判断和重写规则</li>
+<li>hashCode()方法：散列码生成和equals&#x2F;hashCode契约</li>
+<li>getClass()方法：获取运行时类信息</li>
+<li>clone()方法：对象克隆和Cloneable接口</li>
+<li>finalize()方法：对象销毁前的清理（已弃用）</li>
+<li>wait()、notify()、notifyAll()：线程协作</li>
+</ul>
+<h4 id="String类"><a href="#String类" class="headerlink" title="String类"></a>String类</h4><ul>
+<li>字符串的不可变性及其意义</li>
+<li>字符串创建：字面量vs new</li>
+<li>字符串池（String Pool）机制</li>
+<li>常用方法：<ul>
+<li>字符串比较：equals(), equalsIgnoreCase(), compareTo()</li>
+<li>查找和检索：indexOf(), lastIndexOf(), contains(), startsWith(), endsWith()</li>
+<li>提取子串：substring(), split()</li>
+<li>转换：toLowerCase(), toUpperCase(), trim(), replace(), replaceAll()</li>
+<li>格式化：format()</li>
+</ul>
+</li>
+<li>StringBuffer和StringBuilder：可变字符串</li>
+<li>字符串连接性能优化</li>
+<li>字符串常见操作和算法</li>
+</ul>
+<h4 id="包装类"><a href="#包装类" class="headerlink" title="包装类"></a>包装类</h4><ul>
+<li>基本数据类型的包装类：Integer, Double, Character, Boolean等</li>
+<li>自动装箱和自动拆箱</li>
+<li>数值类型转换：parseXxx()和valueOf()方法</li>
+<li>包装类的常用方法和常量</li>
+<li>包装类与字符串的相互转换</li>
+<li>包装类的缓存机制（如Integer缓存）</li>
+<li>包装类的比较注意事项</li>
+</ul>
+<h4 id="日期与时间"><a href="#日期与时间" class="headerlink" title="日期与时间"></a>日期与时间</h4><ul>
+<li>传统日期时间API<ul>
+<li>Date类：创建和格式化</li>
+<li>Calendar类：日期计算和字段操作</li>
+<li>SimpleDateFormat：日期格式化和解析</li>
+</ul>
+</li>
+<li>Java 8新日期时间API<ul>
+<li>LocalDate：日期表示</li>
+<li>LocalTime：时间表示</li>
+<li>LocalDateTime：日期和时间</li>
+<li>ZonedDateTime：带时区的日期时间</li>
+<li>Period和Duration：时间段表示</li>
+<li>DateTimeFormatter：格式化和解析</li>
+<li>TemporalAdjusters：日期调整器</li>
+</ul>
+</li>
+<li>日期时间计算和操作</li>
+<li>时区处理</li>
+<li>日期比较和排序</li>
+</ul>
+<h4 id="数学运算"><a href="#数学运算" class="headerlink" title="数学运算"></a>数学运算</h4><ul>
+<li>Math类常用方法：<ul>
+<li>基本数学函数：abs(), sqrt(), pow(), log()</li>
+<li>取整函数：ceil(), floor(), round()</li>
+<li>最大值和最小值：max(), min()</li>
+<li>随机数：random()</li>
+</ul>
+</li>
+<li>BigInteger：大整数运算</li>
+<li>BigDecimal：精确十进制运算</li>
+<li>常用数学算法和计算</li>
+<li>随机数生成：Random类</li>
+<li>数学常量：PI, E等</li>
+</ul>
+<h3 id="5-异常处理"><a href="#5-异常处理" class="headerlink" title="5. 异常处理"></a>5. 异常处理</h3><h4 id="异常体系"><a href="#异常体系" class="headerlink" title="异常体系"></a>异常体系</h4><ul>
+<li>Throwable类层次结构</li>
+<li>Error：不可恢复的系统错误<ul>
+<li>常见Error类型：OutOfMemoryError, StackOverflowError等</li>
+</ul>
+</li>
+<li>Exception：可处理的程序异常<ul>
+<li>受检异常（Checked Exception）：必须处理的异常</li>
+<li>非受检异常（Unchecked Exception&#x2F;RuntimeException）：可以不显式处理</li>
+</ul>
+</li>
+<li>常见的异常类型及其原因<ul>
+<li>NullPointerException</li>
+<li>ArrayIndexOutOfBoundsException</li>
+<li>ClassCastException</li>
+<li>IllegalArgumentException</li>
+<li>IOException等</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><p><strong>异常处理</strong></p>
-<ul>
-<li><strong>基本概念</strong>：理解异常的分类：<code>Checked Exception</code> 和 <code>Unchecked Exception</code>。</li>
-<li><strong>try-catch 语句</strong>：编写异常处理代码，捕获并处理异常。</li>
-<li><strong>finally 关键字</strong>：理解 <code>finally</code> 块的作用。</li>
-<li><strong>自定义异常</strong>：创建自定义异常类，抛出和捕获自定义异常。</li>
+<h4 id="异常捕获与处理"><a href="#异常捕获与处理" class="headerlink" title="异常捕获与处理"></a>异常捕获与处理</h4><ul>
+<li>try-catch基本语法</li>
+<li>多catch块处理不同异常</li>
+<li>catch顺序和异常继承关系</li>
+<li>finally块：无论异常是否发生都执行的代码</li>
+<li>try-with-resources语句（Java 7+）：自动资源管理</li>
+<li>异常链：getCause()和initCause()</li>
+<li>多重捕获（Java 7+）：catch (ExceptionA | ExceptionB e)</li>
+<li>异常处理最佳实践</li>
+</ul>
+<h4 id="异常抛出"><a href="#异常抛出" class="headerlink" title="异常抛出"></a>异常抛出</h4><ul>
+<li>throws声明：方法可能抛出的异常</li>
+<li>throw语句：手动抛出异常</li>
+<li>异常传播机制：调用栈中的异常传递</li>
+<li>何时抛出vs何时捕获异常</li>
+<li>异常文档和注释（@throws JavaDoc标记）</li>
+<li>重写方法中的异常声明规则</li>
+</ul>
+<h4 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h4><ul>
+<li>创建自定义异常类：继承Exception或RuntimeException</li>
+<li>异常构造方法和消息</li>
+<li>添加额外信息到自定义异常</li>
+<li>异常设计原则和最佳实践</li>
+<li>业务异常vs技术异常</li>
+<li>异常转换：将底层异常包装为更有意义的高层异常</li>
+</ul>
+<h3 id="6-集合框架"><a href="#6-集合框架" class="headerlink" title="6. 集合框架"></a>6. 集合框架</h3><h4 id="Collection接口"><a href="#Collection接口" class="headerlink" title="Collection接口"></a>Collection接口</h4><ul>
+<li>Collection接口基本方法：add(), remove(), contains(), size(), isEmpty()等</li>
+<li>List接口及实现<ul>
+<li>ArrayList：基于动态数组的实现</li>
+<li>LinkedList：基于双向链表的实现</li>
+<li>Vector：线程安全的动态数组（较少使用）</li>
+<li>各实现类的性能特征和适用场景</li>
+<li>常用操作：添加、删除、查找、遍历、排序</li>
 </ul>
 </li>
-<li><p><strong>输入输出 (IO) 操作</strong></p>
-<ul>
-<li><strong>文件操作</strong>：使用 <code>File</code> 类进行文件和目录操作。</li>
-<li><strong>字节流与字符流</strong>：<ul>
-<li>学习 <code>InputStream</code>、<code>OutputStream</code>（字节流），以及 <code>Reader</code>、<code>Writer</code>（字符流）的使用。</li>
+<li>Set接口及实现<ul>
+<li>HashSet：基于HashMap的实现</li>
+<li>LinkedHashSet：保持插入顺序的HashSet</li>
+<li>TreeSet：基于TreeMap的有序集合</li>
+<li>无重复元素和相等性判断</li>
+<li>常用操作和性能考虑</li>
 </ul>
 </li>
-<li><strong>缓冲流</strong>：使用 <code>BufferedReader</code>、<code>BufferedWriter</code> 进行高效文件读写。</li>
-</ul>
-</li>
-<li><p><strong>多线程基础</strong></p>
-<ul>
-<li><strong>线程的概念</strong>：理解什么是线程，如何在 Java 中创建线程。</li>
-<li><strong>实现多线程</strong>：<ul>
-<li>继承 <code>Thread</code> 类并重写 <code>run()</code> 方法。</li>
-<li>实现 <code>Runnable</code> 接口并传递给 <code>Thread</code> 对象。</li>
-</ul>
-</li>
-<li><strong>线程控制</strong>：常见方法如 <code>start()</code>、<code>sleep()</code>、<code>join()</code>。</li>
-<li><strong>JUC</strong>：强大的 java 并发工具包。</li>
-</ul>
-</li>
-<li><p><strong>网络编程</strong></p>
-<ul>
-<li><strong>基本概念</strong>：理解 TCP&#x2F;IP 协议，熟悉网络编程中的基本术语（如客户端、服务器、端口、IP 地址）。</li>
-<li><strong>TCP 通信</strong>：<ul>
-<li>使用 ServerSocket 和 Socket 实现服务器和客户端之间的通信。</li>
-<li>服务器端通过 accept() 方法接收客户端连接，客户端通过 connect() 方法连接服务器。</li>
-<li>使用输入输出流（InputStream 和 OutputStream）进行数据传输。</li>
-</ul>
-</li>
-<li><strong>UDP 通信</strong>：<ul>
-<li>使用 DatagramSocket 和 DatagramPacket 进行无连接的 UDP 单播通信。</li>
-<li>使用 DatagramSocket 和 DatagramPacket 进行广播通信。</li>
-<li>使用 DatagramSocket、MulticastSocket 和 DatagramPacket 进行组播通信。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>反射</strong></p>
-<ul>
-<li><strong>基本概念</strong>：什么是反射，反射的作用以及它的优势与缺点。</li>
-<li><strong>常用操作</strong>：<ul>
-<li><strong>获取类信息</strong>：通过 Class.forName()、getClass() 获取类的 Class 对象。</li>
-<li><strong>获取构造方法</strong>：使用 getConstructors() 获取类的构造方法并实例化对象。</li>
-<li><strong>获取方法</strong>：使用 getMethods() 或 getDeclaredMethods() 获取类中的方法并调用。</li>
-<li><strong>获取字段</strong>：使用 getFields() 或 getDeclaredFields() 获取类中的字段，并进行修改。</li>
+<li>Queue和Deque接口<ul>
+<li>LinkedList作为队列和双端队列</li>
+<li>PriorityQueue：优先级队列</li>
+<li>ArrayDeque：基于数组的双端队列</li>
+<li>队列操作：offer(), poll(), peek()等</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><p><strong>代理</strong></p>
-<ul>
-<li><strong>基本概念</strong>：代理模式是一种设计模式，允许通过代理对象控制对目标对象的访问。</li>
-<li><strong>静态代理</strong>：代理类与目标类实现相同的接口，代理类中控制对目标类的调用。</li>
-<li><strong>动态代理</strong>：使用 Proxy 类和 InvocationHandler 接口实现动态代理。代理对象在运行时生成，并可以在调用目标方法前后添加额外的功能。</li>
+<h4 id="Map接口"><a href="#Map接口" class="headerlink" title="Map接口"></a>Map接口</h4><ul>
+<li>Map接口基本方法：put(), get(), remove(), containsKey(), keySet(), values(), entrySet()等</li>
+<li>HashMap：基于哈希表的实现<ul>
+<li>内部结构：数组+链表+红黑树（Java 8+）</li>
+<li>负载因子和初始容量</li>
+<li>哈希冲突处理</li>
 </ul>
 </li>
-</ol>
-<h2 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h2><div class="note info no-icon flat"><h3 id="Java基础文章导航-🌏"><a href="#Java基础文章导航-🌏" class="headerlink" title="Java基础文章导航 🌏"></a>Java基础文章导航 🌏</h3><ol><li><a href="/post/4g7gt549.html" title="字符编码">字符编码</a></li><li><a href="/post/x4idevfe.html" title="正则表达式">正则表达式</a></li><li><a href="/post/haki98t3.html" title="regex和replacement转义">regex和replacement转义</a></li><li><a href="/post/j9ujeumh.html" title="集合">集合</a></li><li><a href="/post/c0460286.html" title="BigInteger">BigInteger</a></li><li><a href="/post/9m407u54.html" title="BigDecimal">BigDecimal</a></li><li><a href="/post/6882356e.html" title="Java变量名和包名命名规范">Java变量名和包名命名规范</a></li><li><a href="/post/7tcb7iuv.html" title="Stream">Stream</a></li><li><a href="/post/tgpsr7if.html" title="File">File</a></li><li><a href="/post/p83a54r9.html" title="Error">Error</a></li><li><a href="/post/g9jeg624.html" title="Thread">Thread</a></li><li><a href="/post/d82hjg08.html" title="代理">代理</a></li><li><a href="/post/3859609d.html" title="反射">反射</a></li><li><a href="/post/wwuiij1v.html" title="网络编程">网络编程</a></li><li><a href="/post/tgpsr7if.html" title="时间类">时间类</a></li></ol></div>
+<li>LinkedHashMap：保持插入顺序的HashMap</li>
+<li>TreeMap：基于红黑树的有序映射</li>
+<li>Hashtable：线程安全的哈希表（较少使用）</li>
+<li>EnumMap：专为枚举键优化的Map</li>
+<li>IdentityHashMap：使用&#x3D;&#x3D;而非equals()的特殊Map</li>
+<li>WeakHashMap：带有弱引用键的Map</li>
+<li>各实现类的选择标准和性能特征</li>
+</ul>
+<h4 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h4><ul>
+<li>Iterator接口：hasNext(), next(), remove()</li>
+<li>ListIterator：双向迭代</li>
+<li>fail-fast机制：并发修改异常（ConcurrentModificationException）</li>
+<li>迭代过程中安全修改集合</li>
+<li>foreach循环与迭代器的关系</li>
+<li>Iterable接口与可迭代集合</li>
+<li>Spliterator：可分割迭代器（Java 8+）</li>
+</ul>
+<h4 id="泛型的使用"><a href="#泛型的使用" class="headerlink" title="泛型的使用"></a>泛型的使用</h4><ul>
+<li>带泛型的集合声明和使用</li>
+<li>类型安全和避免类型转换</li>
+<li>泛型通配符在集合中的应用</li>
+<li>泛型嵌套：List&lt;Map&lt;String, Integer&gt;&gt;等</li>
+<li>原始类型（raw type）和向后兼容性</li>
+<li>泛型与数组的区别</li>
+</ul>
+<h4 id="集合工具类"><a href="#集合工具类" class="headerlink" title="集合工具类"></a>集合工具类</h4><ul>
+<li>Collections工具类<ul>
+<li>排序：sort(), reverseOrder()</li>
+<li>搜索：binarySearch()</li>
+<li>极值：max(), min()</li>
+<li>填充和替换：fill(), replaceAll()</li>
+<li>同步包装：synchronizedXxx()</li>
+<li>不可修改包装：unmodifiableXxx()</li>
+<li>单例集合：singletonXxx()</li>
+<li>其他实用方法：disjoint(), frequency()等</li>
+</ul>
+</li>
+<li>Arrays工具类<ul>
+<li>转换：asList()</li>
+<li>排序和搜索：sort(), binarySearch()</li>
+<li>填充和复制：fill(), copyOf(), copyOfRange()</li>
+<li>数组与集合的互操作</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-泛型编程"><a href="#7-泛型编程" class="headerlink" title="7. 泛型编程"></a>7. 泛型编程</h3><h4 id="泛型类与接口"><a href="#泛型类与接口" class="headerlink" title="泛型类与接口"></a>泛型类与接口</h4><ul>
+<li>泛型类的定义：class Name<T></li>
+<li>泛型接口的定义：interface Name<T></li>
+<li>类型参数命名约定：E（元素）, T（类型）, K（键）, V（值）等</li>
+<li>多类型参数：&lt;K, V&gt;</li>
+<li>泛型类的实例化和使用</li>
+<li>类型参数的限定：<T extends Number></li>
+<li>泛型类的继承和子类型</li>
+<li>泛型和构造器</li>
+</ul>
+<h4 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h4><ul>
+<li>泛型方法的定义：<T> T methodName(T param)</li>
+<li>类型推断机制</li>
+<li>静态泛型方法</li>
+<li>泛型方法vs泛型类</li>
+<li>类型参数的作用域</li>
+<li>可变参数与泛型的结合</li>
+<li>通用工具方法的设计</li>
+</ul>
+<h4 id="类型擦除"><a href="#类型擦除" class="headerlink" title="类型擦除"></a>类型擦除</h4><ul>
+<li>泛型的实现原理</li>
+<li>类型擦除的概念和过程</li>
+<li>泛型在运行时的实际类型</li>
+<li>泛型的限制：类型参数不能是基本类型，不能创建泛型数组，不能用instanceof等</li>
+<li>桥接方法（bridge method）</li>
+<li>泛型的向前兼容性</li>
+<li>类型擦除带来的问题及解决方案</li>
+</ul>
+<h4 id="泛型通配符"><a href="#泛型通配符" class="headerlink" title="泛型通配符"></a>泛型通配符</h4><ul>
+<li>无界通配符：&lt;?&gt;</li>
+<li>上界通配符：&lt;? extends T&gt;<ul>
+<li>读取安全，写入受限</li>
+<li>Producer Extends原则</li>
+</ul>
+</li>
+<li>下界通配符：&lt;? super T&gt;<ul>
+<li>写入安全，读取受限</li>
+<li>Consumer Super原则</li>
+</ul>
+</li>
+<li>PECS原则（Producer-Extends, Consumer-Super）</li>
+<li>通配符捕获</li>
+<li>通配符vs类型参数</li>
+<li>复杂泛型结构的理解和应用</li>
+</ul>
+<h3 id="8-输入输出流"><a href="#8-输入输出流" class="headerlink" title="8. 输入输出流"></a>8. 输入输出流</h3><h4 id="File类"><a href="#File类" class="headerlink" title="File类"></a>File类</h4><ul>
+<li>文件和目录表示</li>
+<li>文件信息获取：exists(), isFile(), isDirectory(), length(), lastModified()等</li>
+<li>文件操作：createNewFile(), delete(), renameTo()</li>
+<li>目录操作：mkdir(), mkdirs(), list(), listFiles()</li>
+<li>文件路径处理：绝对路径、相对路径</li>
+<li>临时文件创建</li>
+<li>File对象的局限性和新I&#x2F;O API（NIO.2）的改进</li>
+</ul>
+<h4 id="字节流"><a href="#字节流" class="headerlink" title="字节流"></a>字节流</h4><ul>
+<li>InputStream抽象类及其方法：read(), available(), close()等</li>
+<li>OutputStream抽象类及其方法：write(), flush(), close()等</li>
+<li>文件字节流：FileInputStream, FileOutputStream</li>
+<li>内存字节流：ByteArrayInputStream, ByteArrayOutputStream</li>
+<li>数据处理流：DataInputStream, DataOutputStream</li>
+<li>对象流：ObjectInputStream, ObjectOutputStream</li>
+<li>缓冲字节流：BufferedInputStream, BufferedOutputStream</li>
+<li>打印流：PrintStream</li>
+<li>流的链接和包装模式</li>
+</ul>
+<h4 id="字符流"><a href="#字符流" class="headerlink" title="字符流"></a>字符流</h4><ul>
+<li>Reader抽象类及其方法：read(), ready(), close()等</li>
+<li>Writer抽象类及其方法：write(), append(), flush(), close()等</li>
+<li>文件字符流：FileReader, FileWriter</li>
+<li>内存字符流：CharArrayReader, CharArrayWriter, StringReader, StringWriter</li>
+<li>缓冲字符流：BufferedReader, BufferedWriter</li>
+<li>打印字符流：PrintWriter</li>
+<li>桥接流：InputStreamReader, OutputStreamWriter</li>
+<li>字符编码与解码</li>
+</ul>
+<h4 id="缓冲流"><a href="#缓冲流" class="headerlink" title="缓冲流"></a>缓冲流</h4><ul>
+<li>缓冲流的工作原理</li>
+<li>缓冲区大小设置和性能影响</li>
+<li>缓冲区刷新操作</li>
+<li>行读取：BufferedReader.readLine()</li>
+<li>缓冲流的效率提升</li>
+<li>何时使用缓冲流</li>
+<li>缓冲流的常见用法和模式</li>
+</ul>
+<h4 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h4><ul>
+<li>对象序列化的概念和目的</li>
+<li>Serializable接口：标记接口</li>
+<li>序列化过程和反序列化过程</li>
+<li>serialVersionUID的作用和指定</li>
+<li>定制序列化：writeObject()和readObject()方法</li>
+<li>transient关键字：排除不需要序列化的字段</li>
+<li>序列化的安全性考虑</li>
+<li>序列化的替代方案：JSON、XML等</li>
+<li>实战：深拷贝、对象持久化和网络传输</li>
+</ul>
+<h3 id="9-多线程编程"><a href="#9-多线程编程" class="headerlink" title="9. 多线程编程"></a>9. 多线程编程</h3><h4 id="线程基础"><a href="#线程基础" class="headerlink" title="线程基础"></a>线程基础</h4><ul>
+<li>进程vs线程</li>
+<li>线程的创建方式：<ul>
+<li>继承Thread类</li>
+<li>实现Runnable接口</li>
+<li>实现Callable接口（带返回值）</li>
+<li>使用线程池</li>
+</ul>
+</li>
+<li>线程的生命周期：NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, TERMINATED</li>
+<li>线程控制：start(), run(), sleep(), join(), yield(), interrupt()</li>
+<li>线程优先级和调度</li>
+<li>守护线程vs用户线程</li>
+<li>线程组（ThreadGroup）</li>
+</ul>
+<h4 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h4><ul>
+<li>线程安全问题：竞态条件和数据不一致</li>
+<li>synchronized关键字<ul>
+<li>同步方法</li>
+<li>同步代码块</li>
+<li>对象锁vs类锁</li>
+<li>内置锁和监视器（Monitor）</li>
+</ul>
+</li>
+<li>volatile关键字<ul>
+<li>可见性保证</li>
+<li>有序性保证</li>
+<li>不保证原子性</li>
+<li>双重检查锁定（Double-Checked Locking）</li>
+</ul>
+</li>
+<li>线程安全的单例模式</li>
+<li>不可变对象和线程安全</li>
+<li>同步的性能开销和优化</li>
+</ul>
+<h4 id="锁机制"><a href="#锁机制" class="headerlink" title="锁机制"></a>锁机制</h4><ul>
+<li>Lock接口和ReentrantLock<ul>
+<li>与synchronized的区别</li>
+<li>公平锁vs非公平锁</li>
+<li>可中断锁</li>
+<li>锁超时</li>
+<li>条件变量（Condition）</li>
+</ul>
+</li>
+<li>读写锁：ReadWriteLock和ReentrantReadWriteLock<ul>
+<li>读共享写互斥</li>
+<li>写锁降级</li>
+</ul>
+</li>
+<li>StampedLock（Java 8+）：乐观读锁</li>
+<li>死锁问题<ul>
+<li>死锁条件</li>
+<li>死锁预防和检测</li>
+<li>死锁避免</li>
+</ul>
+</li>
+<li>活锁和饥饿问题</li>
+<li>锁优化：粗锁和细锁、锁分离、锁消除</li>
+</ul>
+<h4 id="线程通信"><a href="#线程通信" class="headerlink" title="线程通信"></a>线程通信</h4><ul>
+<li>wait&#x2F;notify机制<ul>
+<li>Object.wait()：释放锁等待通知</li>
+<li>Object.notify()&#x2F;notifyAll()：发送通知</li>
+<li>生产者-消费者模式</li>
+</ul>
+</li>
+<li>Condition接口<ul>
+<li>await()和signal()&#x2F;signalAll()</li>
+<li>多条件变量</li>
+</ul>
+</li>
+<li>阻塞队列<ul>
+<li>BlockingQueue接口及实现</li>
+<li>生产者-消费者模式的改进</li>
+</ul>
+</li>
+<li>信号量（Semaphore）</li>
+<li>栅栏（CyclicBarrier）和闭锁（CountDownLatch）</li>
+<li>交换器（Exchanger）</li>
+<li>阻塞vs轮询vs回调</li>
+</ul>
+<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><ul>
+<li>Executor框架<ul>
+<li>Executor接口：执行任务</li>
+<li>ExecutorService接口：管理服务</li>
+<li>Executors工厂方法</li>
+</ul>
+</li>
+<li>常用线程池<ul>
+<li>FixedThreadPool：固定大小</li>
+<li>CachedThreadPool：缓存复用</li>
+<li>SingleThreadExecutor：单线程</li>
+<li>ScheduledThreadPool：定时执行</li>
+</ul>
+</li>
+<li>ThreadPoolExecutor<ul>
+<li>核心线程数和最大线程数</li>
+<li>任务队列</li>
+<li>拒绝策略</li>
+<li>线程工厂</li>
+<li>生命周期管理</li>
+</ul>
+</li>
+<li>ForkJoinPool（Java 7+）：工作窃取算法</li>
+<li>定时任务调度</li>
+<li>线程池使用最佳实践</li>
+</ul>
+<h4 id="并发工具类"><a href="#并发工具类" class="headerlink" title="并发工具类"></a>并发工具类</h4><ul>
+<li>CountDownLatch：等待多个线程完成</li>
+<li>CyclicBarrier：线程相互等待到达屏障点</li>
+<li>Semaphore：控制并发访问的数量</li>
+<li>Phaser：更灵活的多阶段同步器</li>
+<li>Exchanger：两线程交换数据</li>
+<li>CompletableFuture（Java 8+）：异步编程</li>
+<li>原子变量类：AtomicInteger, AtomicLong等</li>
+<li>并发集合：<ul>
+<li>ConcurrentHashMap</li>
+<li>CopyOnWriteArrayList</li>
+<li>ConcurrentLinkedQueue</li>
+<li>BlockingQueue实现类</li>
+</ul>
+</li>
+<li>线程安全实现的选择和性能考量</li>
+</ul>
+<h3 id="10-Java-8-新特性"><a href="#10-Java-8-新特性" class="headerlink" title="10. Java 8+新特性"></a>10. Java 8+新特性</h3><h4 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h4><ul>
+<li>Lambda表达式语法：() -&gt; {}</li>
+<li>函数式接口：仅有一个抽象方法的接口</li>
+<li>内置函数式接口：<ul>
+<li>Consumer<T>：消费型</li>
+<li>Supplier<T>：供给型</li>
+<li>Function&lt;T, R&gt;：函数型</li>
+<li>Predicate<T>：断言型</li>
+<li>其他函数式接口</li>
+</ul>
+</li>
+<li>方法引用：类::方法<ul>
+<li>静态方法引用：ClassName::staticMethod</li>
+<li>实例方法引用：instance::method</li>
+<li>类方法引用：ClassName::method</li>
+<li>构造方法引用：ClassName::new</li>
+</ul>
+</li>
+<li>变量捕获和作用域规则</li>
+<li>Lambda表达式的类型推断</li>
+<li>闭包和闭包陷阱</li>
+</ul>
+<h4 id="Stream-API"><a href="#Stream-API" class="headerlink" title="Stream API"></a>Stream API</h4><ul>
+<li>流的概念和特点：不存储数据、函数式操作、延迟执行、可能一次性</li>
+<li>流的创建：collection.stream(), Stream.of(), Arrays.stream()等</li>
+<li>中间操作：<ul>
+<li>筛选和切片：filter(), distinct(), limit(), skip()</li>
+<li>映射：map(), flatMap()</li>
+<li>排序：sorted()</li>
+<li>查看：peek()</li>
+</ul>
+</li>
+<li>终端操作：<ul>
+<li>匹配和查找：allMatch(), anyMatch(), noneMatch(), findFirst(), findAny()</li>
+<li>归约：reduce()</li>
+<li>收集：collect(), Collectors工具类</li>
+<li>迭代：forEach()</li>
+<li>计数：count()</li>
+</ul>
+</li>
+<li>并行流：parallelStream()</li>
+<li>数值流：IntStream, LongStream, DoubleStream</li>
+<li>流操作的最佳实践和性能考量</li>
+</ul>
+<h4 id="Optional类"><a href="#Optional类" class="headerlink" title="Optional类"></a>Optional类</h4><ul>
+<li>Optional<T>类的目的和用法</li>
+<li>创建Optional对象：Optional.of(), Optional.ofNullable(), Optional.empty()</li>
+<li>检查值：isPresent(), isEmpty()（Java 11+）</li>
+<li>获取值：get(), orElse(), orElseGet(), orElseThrow()</li>
+<li>条件操作：filter(), map(), flatMap()</li>
+<li>消费值：ifPresent(), ifPresentOrElse()（Java 9+）</li>
+<li>组合多个Optional</li>
+<li>作为返回类型使用Optional</li>
+<li>Optional最佳实践</li>
+</ul>
+<h4 id="新日期时间API"><a href="#新日期时间API" class="headerlink" title="新日期时间API"></a>新日期时间API</h4><ul>
+<li>不可变性和线程安全</li>
+<li>本地日期时间：<ul>
+<li>LocalDate：年、月、日</li>
+<li>LocalTime：时、分、秒、纳秒</li>
+<li>LocalDateTime：组合日期和时间</li>
+</ul>
+</li>
+<li>时区相关：<ul>
+<li>ZoneId：时区标识</li>
+<li>ZoneOffset：UTC偏移量</li>
+<li>ZonedDateTime：带时区的日期时间</li>
+</ul>
+</li>
+<li>时间间隔：<ul>
+<li>Duration：基于时间的间隔</li>
+<li>Period：基于日期的间隔</li>
+<li>ChronoUnit：时间单位</li>
+</ul>
+</li>
+<li>格式化和解析：<ul>
+<li>DateTimeFormatter：日期时间格式化</li>
+<li>预定义格式和自定义模式</li>
+</ul>
+</li>
+<li>时间调整器：<ul>
+<li>TemporalAdjusters：日期调整器</li>
+<li>常用调整器：firstDayOfMonth(), lastDayOfYear()等</li>
+</ul>
+</li>
+<li>新旧API的转换</li>
+</ul>
+<h4 id="默认方法"><a href="#默认方法" class="headerlink" title="默认方法"></a>默认方法</h4><ul>
+<li>接口中的默认方法（default methods）</li>
+<li>默认方法的语法和使用</li>
+<li>多接口继承时的冲突解决</li>
+<li>默认方法与抽象类的比较</li>
+<li>静态接口方法</li>
+<li>API演化和向后兼容性</li>
+<li>默认方法最佳实践</li>
+</ul>
+<h3 id="11-反射与注解"><a href="#11-反射与注解" class="headerlink" title="11. 反射与注解"></a>11. 反射与注解</h3><h4 id="反射机制"><a href="#反射机制" class="headerlink" title="反射机制"></a>反射机制</h4><ul>
+<li>反射概念和用途</li>
+<li>动态获取类信息</li>
+<li>动态实例化对象</li>
+<li>动态访问和修改字段</li>
+<li>动态调用方法</li>
+<li>反射访问私有成员</li>
+<li>反射性能开销和优化</li>
+<li>反射的应用场景和限制</li>
+</ul>
+<h4 id="Class类"><a href="#Class类" class="headerlink" title="Class类"></a>Class类</h4><ul>
+<li>获取Class对象的方式：<ul>
+<li>对象.getClass()</li>
+<li>类名.class</li>
+<li>Class.forName()</li>
+</ul>
+</li>
+<li>类信息查询：<ul>
+<li>名称和修饰符：getName(), getModifiers()等</li>
+<li>父类和接口：getSuperclass(), getInterfaces()</li>
+<li>构造器：getConstructors(), getDeclaredConstructors()</li>
+<li>方法：getMethods(), getDeclaredMethods()</li>
+<li>字段：getFields(), getDeclaredFields()</li>
+</ul>
+</li>
+<li>成员信息：Constructor, Method, Field类</li>
+<li>调用与访问：invoke(), get(), set()等</li>
+<li>泛型信息：Type, ParameterizedType等</li>
+<li>反射与数组</li>
+</ul>
+<h4 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h4><ul>
+<li>代理模式基础</li>
+<li>JDK动态代理：<ul>
+<li>InvocationHandler接口</li>
+<li>Proxy类和newProxyInstance()方法</li>
+<li>代理对象的创建和使用</li>
+</ul>
+</li>
+<li>CGLIB动态代理：<ul>
+<li>基于继承的代理</li>
+<li>增强器和回调</li>
+</ul>
+</li>
+<li>动态代理的应用场景：<ul>
+<li>AOP（面向切面编程）</li>
+<li>RPC（远程过程调用）</li>
+<li>ORM（对象关系映射）</li>
+</ul>
+</li>
+<li>代理性能比较和选择</li>
+</ul>
+<h4 id="注解基础"><a href="#注解基础" class="headerlink" title="注解基础"></a>注解基础</h4><ul>
+<li>注解的概念和用途</li>
+<li>内置注解：<ul>
+<li>@Override：重写方法检查</li>
+<li>@Deprecated：标记过时项</li>
+<li>@SuppressWarnings：抑制警告</li>
+<li>@SafeVarargs：可变参数类型安全</li>
+<li>@FunctionalInterface：函数式接口标记</li>
+</ul>
+</li>
+<li>元注解：<ul>
+<li>@Retention：保留策略</li>
+<li>@Target：适用目标</li>
+<li>@Documented：文档包含</li>
+<li>@Inherited：注解继承</li>
+<li>@Repeatable：可重复注解（Java 8+）</li>
+</ul>
+</li>
+<li>自定义注解：<ul>
+<li>定义语法</li>
+<li>注解元素类型</li>
+<li>默认值</li>
+<li>使用限制</li>
+</ul>
+</li>
+<li>注解处理器：<ul>
+<li>运行时处理：反射API</li>
+<li>编译时处理：注解处理器API</li>
+</ul>
+</li>
+<li>注解最佳实践</li>
+</ul>
+<h3 id="12-单元测试"><a href="#12-单元测试" class="headerlink" title="12. 单元测试"></a>12. 单元测试</h3><h4 id="JUnit使用"><a href="#JUnit使用" class="headerlink" title="JUnit使用"></a>JUnit使用</h4><ul>
+<li>JUnit框架概述（JUnit 4&#x2F;5）</li>
+<li>测试类和测试方法</li>
+<li>基本注解：<ul>
+<li>@Test：标记测试方法</li>
+<li>@Before&#x2F;@BeforeEach：测试前准备</li>
+<li>@After&#x2F;@AfterEach：测试后清理</li>
+<li>@BeforeClass&#x2F;@BeforeAll：类初始化</li>
+<li>@AfterClass&#x2F;@AfterAll：类销毁</li>
+<li>@Ignore&#x2F;@Disabled：跳过测试</li>
+</ul>
+</li>
+<li>测试生命周期</li>
+<li>参数化测试</li>
+<li>测试套件</li>
+<li>超时测试</li>
+<li>异常测试</li>
+<li>测试执行顺序</li>
+</ul>
+<h4 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h4><ul>
+<li>JUnit断言方法：<ul>
+<li>assertEquals()：相等性断言</li>
+<li>assertTrue()&#x2F;assertFalse()：布尔断言</li>
+<li>assertNull()&#x2F;assertNotNull()：空值断言</li>
+<li>assertSame()&#x2F;assertNotSame()：引用相等断言</li>
+<li>assertThrows()：异常断言</li>
+<li>assertAll()：组合断言（JUnit 5）</li>
+</ul>
+</li>
+<li>Hamcrest匹配器：更具表达力的断言</li>
+<li>AssertJ：流式断言API</li>
+<li>自定义断言方法</li>
+<li>断言消息和失败处理</li>
+<li>软断言：收集多个失败</li>
+<li>断言最佳实践</li>
+</ul>
+<h4 id="测试覆盖率"><a href="#测试覆盖率" class="headerlink" title="测试覆盖率"></a>测试覆盖率</h4><ul>
+<li>覆盖率类型：<ul>
+<li>行覆盖率（Line Coverage）</li>
+<li>分支覆盖率（Branch Coverage）</li>
+<li>路径覆盖率（Path Coverage）</li>
+<li>方法覆盖率（Method Coverage）</li>
+<li>类覆盖率（Class Coverage）</li>
+</ul>
+</li>
+<li>覆盖率工具：<ul>
+<li>JaCoCo</li>
+<li>Cobertura</li>
+<li>EclEmma</li>
+</ul>
+</li>
+<li>覆盖率报告解读</li>
+<li>覆盖率目标设定</li>
+<li>测试质量和覆盖率的关系</li>
+<li>提高测试覆盖率的策略</li>
+<li>覆盖率和测试驱动开发（TDD）</li>
+</ul>
+<h2 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h2><div class="note info no-icon flat"><h3 id="Java-基础文章导航-🌏"><a href="#Java-基础文章导航-🌏" class="headerlink" title="Java 基础文章导航 🌏"></a>Java 基础文章导航 🌏</h3><ol><li><a href="/blog/post/4g7gt549.html" title="字符编码">字符编码</a></li><li><a href="/blog/post/x4idevfe.html" title="正则表达式">正则表达式</a></li><li><a href="/blog/post/haki98t3.html" title="regex和replacement转义">regex和replacement转义</a></li><li><a href="/blog/post/j9ujeumh.html" title="集合">集合</a></li><li><a href="/blog/post/c0460286.html" title="BigInteger">BigInteger</a></li><li><a href="/blog/post/9m407u54.html" title="BigDecimal">BigDecimal</a></li><li><a href="/blog/post/6882356e.html" title="Java变量名和包名命名规范">Java变量名和包名命名规范</a></li><li><a href="/blog/post/7tcb7iuv.html" title="Stream">Stream</a></li><li><a href="/blog/post/p83a54r9.html" title="Error">Error</a></li><li><a href="/blog/post/tgpsr7if.html" title="File">File</a></li><li><a href="/blog/post/g9jeg624.html" title="Thread">Thread</a></li><li><a href="/blog/post/d82hjg08.html" title="代理">代理</a></li><li><a href="/blog/post/3859609d.html" title="反射">反射</a></li><li><a href="/blog/post/wwuiij1v.html" title="网络编程">网络编程</a></li><li><a href="/blog/post/tgpsr7if.html" title="时间类">时间类</a></li></ol></div>
 
 <script src='/js/series.js'></script>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://ana-0823.github.io">AnA</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://ana-0823.github.io/post/u9rubdog.html">https://ana-0823.github.io/post/u9rubdog.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://ana-0823.github.io" target="_blank">AnA.</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a><a class="post-meta__tags" href="/tags/java/">java</a></div><div class="post_share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/wwuiij1v.html" title="网络编程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/20.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">网络编程</div></div></a></div><div class="next-post pull-right"><a href="/post/tgpsr7if.html" title="时间类"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">时间类</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/post/z3823524.html" title="后端开发基础（一）- 简介"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/18.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-19</div><div class="title">后端开发基础（一）- 简介</div></div></a></div><div><a href="/post/34f041e5.html" title="后端开发基础（三）- maven"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/13.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-30</div><div class="title">后端开发基础（三）- maven</div></div></a></div><div><a href="/post/m514k094.html" title="前端技术与后端技术之间的区别"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-19</div><div class="title">前端技术与后端技术之间的区别</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">AnA</div><div class="author-info__description">一个努力做全栈开发的广财er~💻</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">38</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/AnA-0823"><i class="fab fa-github"></i><span>前往小窝🚗</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:1157559178@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的小站</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%AF%BC%E8%88%AA-%F0%9F%8C%8F"><span class="toc-text">后端开发导航 🌏</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF"><span class="toc-text">学习路线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%96%87%E7%AB%A0"><span class="toc-text">相关文章</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E5%9F%BA%E7%A1%80%E6%96%87%E7%AB%A0%E5%AF%BC%E8%88%AA-%F0%9F%8C%8F"><span class="toc-text">Java基础文章导航 🌏</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: none"><div id="footer-wrap"><div class="copyright">&copy;2024 By AnA</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">一个讨论技术和作为个人知识库的小站</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat-btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="/js/tw_cn.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://lanal.site/blog">AnA</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lanal.site/blog/post/u9rubdog.html">https://lanal.site/blog/post/u9rubdog.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lanal.site/blog" target="_blank">AnA.</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a><a class="post-meta__tags" href="/blog/tags/java/">java</a></div><div class="post_share"></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://lanal.site/file/blog/wechat.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://lanal.site/file/blog/alipay.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/blog/post/wwuiij1v.html" title="网络编程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/6.jpg" onerror="onerror=null;src='/blog/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">网络编程</div></div></a></div><div class="next-post pull-right"><a href="/blog/post/tgpsr7if.html" title="时间类"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/17.jpg" onerror="onerror=null;src='/blog/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">时间类</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/blog/post/z3823524.html" title="后端开发基础（一）- 简介"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/16.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-19</div><div class="title">后端开发基础（一）- 简介</div></div></a></div><div><a href="/blog/post/1357170t.html" title="git"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-29</div><div class="title">git</div></div></a></div><div><a href="/blog/post/j9bw2m38.html" title="后端开发基础（五）- git"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-29</div><div class="title">后端开发基础（五）- git</div></div></a></div><div><a href="/blog/post/34f041e5.html" title="后端开发基础（三）- maven"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-30</div><div class="title">后端开发基础（三）- maven</div></div></a></div><div><a href="/blog/post/h12hgndk.html" title="后端开发基础（四）- SQL"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/20.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-29</div><div class="title">后端开发基础（四）- SQL</div></div></a></div><div><a href="/blog/post/m514k094.html" title="前端技术与后端技术之间的区别"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/18.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-19</div><div class="title">前端技术与后端技术之间的区别</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/avatar.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">AnA</div><div class="author-info__description">一个努力做全栈开发的广财er~💻</div></div><div class="card-info-data site-data is-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">46</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/AnA-0823"><i class="fab fa-github"></i><span>前往小窝🚗</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:1157559178@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的小站</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%AF%BC%E8%88%AA-%F0%9F%8C%8F"><span class="toc-text">后端开发导航 🌏</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF"><span class="toc-text">学习路线</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-text">1. 环境准备</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JDK%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE"><span class="toc-text">JDK安装与配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%80%89%E6%8B%A9"><span class="toc-text">开发工具选择</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F"><span class="toc-text">编写第一个程序</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Java%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80"><span class="toc-text">2. Java语法基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-text">基本语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F"><span class="toc-text">变量与常量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="toc-text">控制流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text">数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B"><span class="toc-text">3. 面向对象编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1"><span class="toc-text">类与对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7"><span class="toc-text">三大特性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E6%96%B9%E6%B3%95"><span class="toc-text">成员变量与方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-text">访问修饰符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E4%B8%8E%E6%8E%A5%E5%8F%A3"><span class="toc-text">抽象类与接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E9%83%A8%E7%B1%BB"><span class="toc-text">内部类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Java%E6%A0%B8%E5%BF%83%E7%B1%BB"><span class="toc-text">4. Java核心类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Object%E7%B1%BB"><span class="toc-text">Object类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#String%E7%B1%BB"><span class="toc-text">String类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%85%E8%A3%85%E7%B1%BB"><span class="toc-text">包装类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E4%B8%8E%E6%97%B6%E9%97%B4"><span class="toc-text">日期与时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E8%BF%90%E7%AE%97"><span class="toc-text">数学运算</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-text">5. 异常处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E4%BD%93%E7%B3%BB"><span class="toc-text">异常体系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E4%B8%8E%E5%A4%84%E7%90%86"><span class="toc-text">异常捕获与处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E6%8A%9B%E5%87%BA"><span class="toc-text">异常抛出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8"><span class="toc-text">自定义异常</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6"><span class="toc-text">6. 集合框架</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Collection%E6%8E%A5%E5%8F%A3"><span class="toc-text">Collection接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Map%E6%8E%A5%E5%8F%A3"><span class="toc-text">Map接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-text">迭代器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">泛型的使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="toc-text">集合工具类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B"><span class="toc-text">7. 泛型编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B%E7%B1%BB%E4%B8%8E%E6%8E%A5%E5%8F%A3"><span class="toc-text">泛型类与接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B%E6%96%B9%E6%B3%95"><span class="toc-text">泛型方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%93%A6%E9%99%A4"><span class="toc-text">类型擦除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B%E9%80%9A%E9%85%8D%E7%AC%A6"><span class="toc-text">泛型通配符</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%B5%81"><span class="toc-text">8. 输入输出流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#File%E7%B1%BB"><span class="toc-text">File类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E6%B5%81"><span class="toc-text">字节流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E6%B5%81"><span class="toc-text">字符流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E6%B5%81"><span class="toc-text">缓冲流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-text">序列化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B"><span class="toc-text">9. 多线程编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80"><span class="toc-text">线程基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5"><span class="toc-text">线程同步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%81%E6%9C%BA%E5%88%B6"><span class="toc-text">锁机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="toc-text">线程通信</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="toc-text">线程池</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="toc-text">并发工具类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-Java-8-%E6%96%B0%E7%89%B9%E6%80%A7"><span class="toc-text">10. Java 8+新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">Lambda表达式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Stream-API"><span class="toc-text">Stream API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Optional%E7%B1%BB"><span class="toc-text">Optional类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B0%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4API"><span class="toc-text">新日期时间API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E6%96%B9%E6%B3%95"><span class="toc-text">默认方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E5%8F%8D%E5%B0%84%E4%B8%8E%E6%B3%A8%E8%A7%A3"><span class="toc-text">11. 反射与注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6"><span class="toc-text">反射机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Class%E7%B1%BB"><span class="toc-text">Class类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="toc-text">动态代理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E5%9F%BA%E7%A1%80"><span class="toc-text">注解基础</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-text">12. 单元测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JUnit%E4%BD%BF%E7%94%A8"><span class="toc-text">JUnit使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%AD%E8%A8%80"><span class="toc-text">断言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%A6%86%E7%9B%96%E7%8E%87"><span class="toc-text">测试覆盖率</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%96%87%E7%AB%A0"><span class="toc-text">相关文章</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E5%9F%BA%E7%A1%80%E6%96%87%E7%AB%A0%E5%AF%BC%E8%88%AA-%F0%9F%8C%8F"><span class="toc-text">Java 基础文章导航 🌏</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: none"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By AnA</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">一个讨论技术和作为个人知识库的小站</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat-btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=4.13.0"></script><script src="/blog/js/main.js?v=4.13.0"></script><script src="/blog/js/tw_cn.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
   if (typeof pangu === 'object') pangu.autoSpacingPage()
   else {
     getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
@@ -469,7 +1085,7 @@ document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-
   } else {
     window.loadOtherComment = loadUtterances
   }
-})()</script></div><script>(() => {
+})()</script></div><canvas id="universe"></canvas><script defer src="/blog/js/universe.js"></script><script>(() => {
   window.$crisp = [];
   window.CRISP_WEBSITE_ID = "7f92a049-11a1-42b1-91dc-f8795aa5a3b8";
   (function () {
@@ -576,6 +1192,83 @@ document.addEventListener('pjax:complete', function () {
 
 document.addEventListener('pjax:error', e => {
   if (e.request.status === 404) {
-    pjax.loadUrl('/404.html')
+    pjax.loadUrl('/blog/404.html')
   }
-})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body></html>
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/blog/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/blog/'|| '/blog/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/前端开发/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🌐 AnAの前端开发笔记 (6)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/后端开发/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🖥🖱 AnAの后端开发笔记 (5)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/数据结构与算法/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🔢📊💡 AnAの数据结构与算法学习笔记 (4)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/深入理解计算机系统/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">💻 AnAのcsapp学习笔记 (6)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/Java基础/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">☕ AnAのJava基础笔记 (17)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/spring/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🌱 AnAのspring笔记 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/hexo/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📝 AnAの博客搭建笔记 (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://lanal.site/blog/categories/基础知识/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🌀 AnAの杂类笔记 (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item" style="visibility: hidden"></div><a class="magnet_link_more"  href="https://lanal.site/blog/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(33.333333333333336% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #49B1F5}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/blog/';
+  var qweather_key = 'b16a1fa0e63c46a4b8f28abfb06ae3fe';
+  var gaud_map_key = 'df8d8ea3d8bdfe4464932625f8559081';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/6706d621.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/2.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-03</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/6706d621.html&quot;);" href="javascript:void(0);" alt="">基于hexo搭建博客基础（一）</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/6706d621.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/sunqxf91.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/2.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-03</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/sunqxf91.html&quot;);" href="javascript:void(0);" alt="">基于hexo搭建博客基础（二）</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/sunqxf91.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/r51bjcg8.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/9.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-03</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/r51bjcg8.html&quot;);" href="javascript:void(0);" alt="">基于hexo搭建博客基础（三）</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/r51bjcg8.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/x766a8l8.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/11.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-14</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/x766a8l8.html&quot;);" href="javascript:void(0);" alt="">前端开发基础（一）- 学习路线</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/x766a8l8.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/z3823524.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/16.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-19</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/z3823524.html&quot;);" href="javascript:void(0);" alt="">后端开发基础（一）- 简介</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/z3823524.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/4u11a4r5.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/21.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-10-28</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/4u11a4r5.html&quot;);" href="javascript:void(0);" alt="">数据结构与算法</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/4u11a4r5.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/f1u3bpyv.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lanal.site/file/blog/post-cover/21.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-10-30</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/f1u3bpyv.html&quot;);" href="javascript:void(0);" alt="">深入理解计算机系统</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/f1u3bpyv.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/blog/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '0.75s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '2');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --><script src="/blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/blog/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-40},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body></html>
